@@ -1,843 +1,1259 @@
 <!DOCTYPE html>
-<html lang="id" class="dark">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexusLink Pro // Ultra URL Shortener</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome 6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #020617;
-        }
-        .mono-font {
-            font-family: 'JetBrains Mono', monospace;
-        }
-        @keyframes neon-pulse {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 1;
-                box-shadow: 0 0 8px #10b981, 0 0 16px #10b981;
-            }
-            50% {
-                transform: scale(0.82);
-                opacity: 0.35;
-                box-shadow: 0 0 2px #10b981, 0 0 4px rgba(16, 185, 129, 0.2);
-            }
-        }
-        .blinking-dot {
-            animation: neon-pulse 1.5s infinite ease-in-out;
-        }
-        .glass-card {
-            background: rgba(15, 23, 42, 0.82);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-        }
-        /* Styling Jam Analog Realistik */
-        .analog-face {
-            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
-            box-shadow: 
-                inset 0 0 10px rgba(6, 182, 212, 0.25),
-                0 0 15px rgba(15, 23, 42, 0.9);
-        }
-        .clock-hand {
-            transform-origin: 50px 50px;
-            transition: transform 0.15s cubic-bezier(0.4, 2.08, 0.55, 0.44);
-        }
-        .clock-hand.no-transition {
-            transition: none;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalender Tiga Peradaban & Jam Astronomis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-obsidian: #08090c;
+      --bg-surface: rgba(20, 23, 31, 0.78);
+      --gold-primary: #d4af37;
+      --gold-light: #f9e29c;
+      --gold-dark: #997415;
+      --emerald-accent: #10b981;
+      --cyan-accent: #06b6d4;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --border-gold: rgba(212, 175, 55, 0.28);
+      --shadow-luxury: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 25px rgba(212, 175, 55, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-obsidian);
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(212, 175, 55, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.08) 0%, transparent 45%),
+        linear-gradient(180deg, #060709 0%, #0d1017 100%);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      padding: 24px 16px 48px;
+      line-height: 1.6;
+    }
+
+    .app-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* HEADER & BADGE DEVELOPER */
+    .top-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 26px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-gold);
+      border-radius: 18px;
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow-luxury);
+    }
+
+    .brand-title h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--gold-light), var(--gold-primary), #fff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 1px;
+    }
+
+    .brand-title p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .dev-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 18px;
+      background: rgba(10, 12, 18, 0.9);
+      border: 1px solid var(--gold-primary);
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--gold-light);
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+      letter-spacing: 0.5px;
+    }
+
+    .blinking-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #10b981;
+      box-shadow: 0 0 8px #10b981, 0 0 16px #10b981;
+      animation: pulse-blink 1.1s infinite ease-in-out;
+    }
+
+    @keyframes pulse-blink {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 10px #10b981, 0 0 20px #34d399;
+      }
+      50% {
+        opacity: 0.2;
+        transform: scale(0.75);
+        box-shadow: 0 0 2px #10b981;
+      }
+    }
+
+    /* DUAL CLOCKS SECTION */
+    .clocks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 22px;
+    }
+
+    .clock-card {
+      position: relative;
+      overflow: hidden;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-gold);
+      border-radius: 20px;
+      padding: 24px 28px;
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow-luxury);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .clock-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+    }
+
+    .clock-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .clock-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--gold-primary);
+      font-weight: 700;
+    }
+
+    .clock-tag {
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      border-radius: 6px;
+      background: rgba(212, 175, 55, 0.14);
+      color: var(--gold-light);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .digital-time {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(2.1rem, 4.2vw, 3.1rem);
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 2px;
+      text-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
+    }
+
+    .digital-time .ms-part {
+      font-size: 1.1rem;
+      color: var(--gold-primary);
+    }
+
+    .clock-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 12px;
+    }
+
+    /* CONTROLS BAR */
+    .control-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 22px;
+      background: rgba(15, 18, 25, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .control-group label {
+      font-size: 0.85rem;
+      color: var(--gold-light);
+      font-weight: 600;
+    }
+
+    .input-luxury {
+      background: #0b0d13;
+      color: var(--text-main);
+      border: 1px solid var(--border-gold);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    .input-luxury:focus {
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
+    }
+
+    .btn-luxury {
+      background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+      color: #08090c;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.84rem;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn-luxury:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);
+    }
+
+    /* THREE CALENDARS GRID */
+    .calendars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+      gap: 22px;
+    }
+
+    .cal-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-gold);
+      border-radius: 20px;
+      padding: 26px;
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow-luxury);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+      position: relative;
+    }
+
+    .cal-badge {
+      display: inline-block;
+      align-self: flex-start;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold-light);
+      border: 1px solid var(--border-gold);
+    }
+
+    .cal-main-date {
+      text-align: center;
+      padding: 16px 10px;
+      background: rgba(8, 9, 12, 0.55);
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .cal-day-number {
+      font-family: 'Cinzel', serif;
+      font-size: 3.4rem;
+      font-weight: 800;
+      line-height: 1.1;
+      background: linear-gradient(180deg, #ffffff, var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .cal-month-year {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--gold-primary);
+      margin-top: 4px;
+    }
+
+    .cal-sub-day {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .cal-details-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 0.88rem;
+    }
+
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 8px;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+    }
+
+    .detail-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .detail-label {
+      color: var(--text-muted);
+    }
+
+    .detail-value {
+      font-weight: 600;
+      color: var(--text-main);
+      text-align: right;
+    }
+
+    .detail-value.highlight {
+      color: var(--gold-light);
+    }
+
+    /* PRANATA MANGSA SECTION */
+    .mangsa-card {
+      background: linear-gradient(135deg, rgba(20, 24, 34, 0.92), rgba(12, 16, 22, 0.95));
+      border: 1px solid var(--gold-primary);
+      border-radius: 22px;
+      padding: 30px;
+      box-shadow: var(--shadow-luxury);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .mangsa-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+      padding-bottom: 16px;
+    }
+
+    .mangsa-title-block h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.6rem;
+      color: var(--gold-light);
+    }
+
+    .mangsa-title-block p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .mangsa-period-pill {
+      padding: 6px 16px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #6ee7b7;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .mangsa-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .mangsa-box {
+      background: rgba(8, 9, 12, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .mangsa-box span {
+      display: block;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gold-primary);
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .mangsa-box p {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .progress-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold-primary), var(--emerald-accent));
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+  </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-white relative overflow-x-hidden">
+<body>
 
-    <!-- Ambient Glow -->
-    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <div class="absolute -top-40 -left-40 w-[28rem] h-[28rem] bg-cyan-500/10 rounded-full blur-3xl"></div>
-        <div class="absolute top-1/3 -right-40 w-[28rem] h-[28rem] bg-emerald-500/10 rounded-full blur-3xl"></div>
-    </div>
+  <div class="app-container">
+    <!-- HEADER & BADGE DEVELOPER -->
+    <header class="top-bar">
+      <div class="brand-title">
+        <h1>CHRONO NUSANTARA ROYAL SUITE</h1>
+        <p>Harmoni Waktu Astronomis, Gregorian, Hijriyah & Sultan Agungan</p>
+      </div>
+      <div class="dev-badge" title="Verified Senior Developer">
+        <span class="blinking-dot"></span>
+        <span>developer: fatur62</span>
+      </div>
+    </header>
 
-    <!-- Modal QR Code -->
-    <div id="qr-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center p-4">
-        <div class="max-w-sm w-full glass-card border border-slate-800 rounded-2xl p-6 text-center shadow-2xl relative">
-            <button type="button" id="close-qr-btn" class="absolute top-4 right-4 w-8 h-8 rounded-lg bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center cursor-pointer">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-medium mb-3">
-                <i class="fa-solid fa-qrcode"></i> QR Code Aktif
-            </div>
-            <h3 id="qr-modal-title" class="text-sm font-bold text-emerald-400 mono-font truncate mb-4"></h3>
-            <div class="bg-white p-4 rounded-xl inline-block mx-auto mb-4">
-                <img id="qr-modal-img" src="" alt="QR Code" class="w-48 h-48 object-contain mx-auto">
-            </div>
-            <p class="text-xs text-slate-400 mb-4">Scan QR ini dengan HP apa saja untuk langsung membuka link tujuan.</p>
-            <button type="button" id="close-qr-bottom-btn" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold cursor-pointer">Tutup</button>
+    <!-- BARIS PALING ATAS: 2 JAM PENUNJUK WAKTU -->
+    <section class="clocks-grid" aria-label="Penunjuk Waktu">
+      <!-- Jam 1: Waktu Jam Matahari (Solar Time) -->
+      <article class="clock-card">
+        <div class="clock-header">
+          <span class="clock-label">Waktu Jam Matahari</span>
+          <span class="clock-tag" id="solar-status-tag">True Solar Time</span>
         </div>
-    </div>
-
-    <div class="relative z-10 max-w-4xl mx-auto px-4 py-8 w-full flex-grow flex flex-col justify-between">
-        <div>
-            <!-- HEADER, IDENTITAS DEVELOPER & WIDGET JAM DUAL-MODE -->
-            <header class="mb-8 flex flex-col lg:flex-row lg:items-center justify-between border-b border-slate-800/80 pb-6 gap-5">
-                <div class="flex items-center gap-3.5">
-                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/25 border border-white/10 shrink-0">
-                        <i class="fa-solid fa-bolt-lightning text-white text-xl"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-                            Nexus<span class="bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent">Link</span> <span class="text-xs font-mono uppercase px-2 py-0.5 rounded-md bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 align-middle">REAL ENGINE</span>
-                        </h1>
-                        <!-- Identitas developer : fatur62 dengan bulatan kecil kelap-kelip di kirinya -->
-                        <div class="flex items-center gap-2.5 mt-1.5 bg-slate-900/90 border border-emerald-500/30 px-3 py-1 rounded-full w-fit shadow-sm">
-                            <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 blinking-dot"></span>
-                            <span class="text-xs font-semibold tracking-wider text-emerald-400 mono-font">developer : fatur62</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Panel Kanan: Widget Jam (Digital / Analog) & Statistik -->
-                <div class="flex flex-wrap sm:flex-nowrap items-center gap-3">
-                    
-                    <!-- WIDGET JAM INTERAKTIF -->
-                    <div class="glass-card border border-slate-800/90 px-4 py-2.5 rounded-2xl flex items-center gap-4 shadow-lg">
-                        
-                        <!-- Tampilan 1: Jam Digital -->
-                        <div id="digital-clock-view" class="flex items-center gap-3">
-                            <div class="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm">
-                                <i class="fa-regular fa-clock"></i>
-                            </div>
-                            <div>
-                                <div id="digital-time" class="text-lg font-extrabold text-white mono-font tracking-wider leading-none">00:00:00</div>
-                                <div id="digital-date" class="text-[10px] text-slate-400 font-medium mt-1">Memuat tanggal...</div>
-                            </div>
-                        </div>
-
-                        <!-- Tampilan 2: Jam Analog Realistik (Jarum Jam, Menit, Detik) -->
-                        <div id="analog-clock-view" class="hidden items-center gap-3">
-                            <div class="relative w-14 h-14 rounded-full analog-face border-2 border-cyan-500/40 flex items-center justify-center shrink-0">
-                                <svg viewBox="0 0 100 100" class="w-full h-full">
-                                    <!-- Ring Dalam -->
-                                    <circle cx="50" cy="50" r="46" fill="none" stroke="rgba(148, 163, 184, 0.15)" stroke-width="1" />
-                                    
-                                    <!-- Penanda Jam Utama (12, 3, 6, 9) -->
-                                    <line x1="50" y1="6" x2="50" y2="13" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" />
-                                    <line x1="94" y1="50" x2="87" y2="50" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" />
-                                    <line x1="50" y1="94" x2="50" y2="87" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" />
-                                    <line x1="6" y1="50" x2="13" y2="50" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" />
-
-                                    <!-- Penanda Jam Lainnya -->
-                                    <line x1="72" y1="11.9" x2="69.5" y2="16.2" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" />
-                                    <line x1="88.1" y1="28" x2="83.8" y2="30.5" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" />
-                                    <line x1="88.1" y1="72" x2="83.8" y2="69.5" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" />
-                                    <line x1="72" y1="88.1" x2="69.5" y2="83.8" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" />
-                                    <line x1="28" y1="88.1" x2="30.5" y2="83.8" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" />
-                                    <line x1="11.9" y1="72" x2="16.2" y2="69.5" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" />
-                                    <line x1="11.9" y1="28" x2="16.2" y2="30.5" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" />
-                                    <line x1="28" y1="11.9" x2="30.5" y2="16.2" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" />
-
-                                    <!-- Jarum Jam (Pendek & Tebal) -->
-                                    <line id="analog-hour" class="clock-hand" x1="50" y1="50" x2="50" y2="26" stroke="#f8fafc" stroke-width="3.5" stroke-linecap="round" />
-                                    
-                                    <!-- Jarum Menit (Panjang & Sedang) -->
-                                    <line id="analog-minute" class="clock-hand" x1="50" y1="50" x2="50" y2="16" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" />
-                                    
-                                    <!-- Jarum Detik (Merah/Emerald Halus dengan Ekor) -->
-                                    <g id="analog-second" class="clock-hand">
-                                        <line x1="50" y1="58" x2="50" y2="12" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" />
-                                    </g>
-
-                                    <!-- Titik Poros Tengah -->
-                                    <circle cx="50" cy="50" r="3.5" fill="#10b981" />
-                                    <circle cx="50" cy="50" r="1.5" fill="#020617" />
-                                </svg>
-                            </div>
-                            <div>
-                                <div class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider">Mode Analog</div>
-                                <div id="analog-sub-time" class="text-xs text-slate-300 mono-font font-semibold">00:00 WIB</div>
-                                <div id="analog-date" class="text-[10px] text-slate-400">Memuat...</div>
-                            </div>
-                        </div>
-
-                        <!-- Tombol Switch Opsi Jam (Digital / Analog) -->
-                        <div class="border-l border-slate-800 pl-3 flex flex-col gap-1">
-                            <span class="text-[9px] uppercase tracking-wider text-slate-500 font-semibold text-center">Opsi Jam</span>
-                            <div class="flex bg-slate-950 p-0.5 rounded-lg border border-slate-800">
-                                <button 
-                                    type="button" 
-                                    id="btn-mode-digital" 
-                                    class="px-2 py-1 rounded-md text-[10px] font-semibold transition-all cursor-pointer bg-cyan-500/20 text-cyan-300 border border-cyan-500/30"
-                                    title="Tampilan Jam Digital"
-                                >
-                                    Digital
-                                </button>
-                                <button 
-                                    type="button" 
-                                    id="btn-mode-analog" 
-                                    class="px-2 py-1 rounded-md text-[10px] font-semibold transition-all cursor-pointer text-slate-400 hover:text-slate-200"
-                                    title="Tampilan Jam Analog Jarum"
-                                >
-                                    Jarum
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Statistik Total Link -->
-                    <div class="glass-card border border-slate-800 px-4 py-3 rounded-2xl flex items-center gap-3 shrink-0">
-                        <div class="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-sm">
-                            <i class="fa-solid fa-globe"></i>
-                        </div>
-                        <div>
-                            <div class="text-[10px] text-slate-400 uppercase tracking-wider">Link Aktif</div>
-                            <div id="stat-total-links" class="text-base font-bold text-white mono-font leading-tight">0</div>
-                        </div>
-                    </div>
-
-                </div>
-            </header>
-
-            <!-- MAIN FORM -->
-            <main class="space-y-8">
-                <section class="glass-card border border-slate-800/90 rounded-2xl p-6 sm:p-8 shadow-2xl">
-                    <div class="mb-6 pb-4 border-b border-slate-800/80">
-                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-wand-magic-sparkles text-cyan-400"></i>
-                            Generator Short Link Global (100% Aktif di Semua Browser)
-                        </h2>
-                        <p class="text-xs text-slate-400 mt-1">
-                            Menggunakan jaringan server global nyata agar link pendek bisa langsung diklik dan dibuka di Chrome/HP siapa saja.
-                        </p>
-                    </div>
-
-                    <form id="shortener-form" class="space-y-5" novalidate>
-                        <!-- 1. Input Long URL -->
-                        <div>
-                            <label for="long-url" class="block text-sm font-semibold text-slate-200 mb-2 flex items-center justify-between">
-                                <span><i class="fa-solid fa-link text-cyan-400 mr-1.5"></i> Link Panjang Tujuan (Long URL) <span class="text-rose-400">*</span></span>
-                                <button type="button" id="fill-example-btn" class="text-xs text-cyan-400 hover:underline cursor-pointer">Isi Contoh Link</button>
-                            </label>
-                            <input 
-                                type="url" 
-                                id="long-url" 
-                                required 
-                                placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                                class="w-full px-4 py-3.5 bg-slate-950/90 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-600 focus:outline-none focus:border-cyan-500 text-sm"
-                            >
-                        </div>
-
-                        <!-- 2. Pilihan Provider Domain Server + Nama Depan + Nama Link -->
-                        <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
-                            <!-- Server Gateway Asli -->
-                            <div class="md:col-span-3">
-                                <label for="server-domain" class="block text-sm font-semibold text-slate-200 mb-2">
-                                    <i class="fa-solid fa-server text-blue-400 mr-1"></i> Server Aktif
-                                </label>
-                                <select 
-                                    id="server-domain" 
-                                    class="w-full px-3 py-3.5 bg-slate-950/90 border border-slate-800 rounded-xl text-slate-200 focus:outline-none focus:border-cyan-500 text-sm mono-font cursor-pointer"
-                                >
-                                    <option value="is.gd">is.gd/</option>
-                                    <option value="v.gd">v.gd/</option>
-                                </select>
-                            </div>
-
-                            <!-- Kolom Pemberian Nama Depan Link (Custom Prefix) -->
-                            <div class="md:col-span-4">
-                                <label for="custom-prefix" class="block text-sm font-semibold text-slate-200 mb-2 flex items-center justify-between">
-                                    <span><i class="fa-solid fa-tag text-emerald-400 mr-1"></i> Nama Depan Link</span>
-                                    <span class="text-[10px] text-emerald-400 font-normal">Bebas Diubah</span>
-                                </label>
-                                <div class="relative flex items-center">
-                                    <input 
-                                        type="text" 
-                                        id="custom-prefix" 
-                                        value="fatur62"
-                                        placeholder="misal: fatur62 / toko"
-                                        class="w-full pl-3.5 pr-8 py-3.5 bg-slate-950/90 border border-slate-800 rounded-xl text-emerald-300 font-semibold placeholder-slate-600 focus:outline-none focus:border-emerald-500 text-sm mono-font"
-                                    >
-                                    <span class="absolute right-3 text-slate-500 mono-font font-bold select-none">_</span>
-                                </div>
-                            </div>
-
-                            <!-- Kolom Nama Link Milik User (Custom Alias) -->
-                            <div class="md:col-span-5">
-                                <label for="custom-slug" class="block text-sm font-semibold text-slate-200 mb-2 flex items-center justify-between">
-                                    <span><i class="fa-solid fa-pen-nib text-cyan-400 mr-1"></i> Nama Link Anda</span>
-                                    <span class="text-[10px] text-slate-400 font-normal">Wajib Unik</span>
-                                </label>
-                                <div class="flex gap-2">
-                                    <input 
-                                        type="text" 
-                                        id="custom-slug" 
-                                        placeholder="misal: masjid2026"
-                                        class="flex-1 px-3.5 py-3.5 bg-slate-950/90 border border-slate-800 rounded-xl text-cyan-300 font-semibold placeholder-slate-600 focus:outline-none focus:border-cyan-500 text-sm mono-font"
-                                    >
-                                    <button 
-                                        type="button" 
-                                        id="random-slug-btn"
-                                        class="px-3.5 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-semibold transition-all cursor-pointer shrink-0"
-                                        title="Buat Kode Unik Acak"
-                                    >
-                                        <i class="fa-solid fa-dice text-cyan-400"></i> Acak
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Live Preview Real-time -->
-                        <div class="bg-slate-950/95 border border-slate-800 rounded-xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                            <div class="flex items-center gap-2 text-xs text-slate-400">
-                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                                <span>Preview Link Aktif:</span>
-                            </div>
-                            <div class="text-sm mono-font font-bold truncate">
-                                <span class="text-slate-500">https://</span><span id="preview-server" class="text-blue-400">is.gd</span><span class="text-slate-500">/</span><span id="preview-prefix" class="text-emerald-400">fatur62</span><span id="preview-sep" class="text-slate-500">_</span><span id="preview-slug" class="text-cyan-400">masjid2026</span>
-                            </div>
-                        </div>
-
-                        <button 
-                            type="submit" 
-                            id="submit-btn"
-                            class="w-full py-4 px-6 bg-gradient-to-r from-cyan-500 via-blue-600 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-white font-bold rounded-xl shadow-lg shadow-cyan-500/20 transition-all cursor-pointer flex items-center justify-center gap-2 text-base"
-                        >
-                            <i class="fa-solid fa-bolt"></i>
-                            <span>Buat Short Link Aktif Sekarang</span>
-                        </button>
-                    </form>
-
-                    <!-- Error Box -->
-                    <div id="error-alert" class="hidden mt-5 p-4 bg-rose-950/70 border border-rose-800 rounded-xl text-rose-200 text-xs sm:text-sm flex items-center justify-between gap-3">
-                        <div class="flex items-center gap-2.5">
-                            <i class="fa-solid fa-triangle-exclamation text-rose-400 text-base shrink-0"></i>
-                            <span id="error-message"></span>
-                        </div>
-                    </div>
-
-                    <!-- Result Card -->
-                    <div id="result-card" class="hidden mt-6 p-5 bg-slate-900/90 border border-emerald-500/40 rounded-2xl shadow-xl">
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs text-emerald-400 uppercase font-bold tracking-wider flex items-center gap-1.5">
-                                <i class="fa-solid fa-circle-check"></i> Short Link Resmi Aktif & Siap Dipaste di Chrome!
-                            </span>
-                            <span id="result-time" class="text-xs text-slate-400 mono-font"></span>
-                        </div>
-
-                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                            <div class="flex-1 bg-slate-950 border border-slate-800 px-4 py-3.5 rounded-xl flex items-center justify-between gap-2 overflow-hidden">
-                                <a id="short-link-output" href="#" target="_blank" rel="noopener noreferrer" class="text-cyan-300 hover:text-cyan-200 underline font-bold mono-font text-base truncate"></a>
-                                <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shrink-0">ONLINE</span>
-                            </div>
-
-                            <div class="flex items-center gap-2">
-                                <button type="button" id="copy-primary-btn" class="flex-1 sm:flex-none px-5 py-3.5 bg-cyan-600 hover:bg-cyan-500 text-white font-semibold rounded-xl text-sm transition-all flex items-center justify-center gap-2 cursor-pointer">
-                                    <i class="fa-solid fa-copy"></i>
-                                    <span id="copy-btn-text">Salin</span>
-                                </button>
-                                <button type="button" id="qr-primary-btn" class="px-4 py-3.5 bg-slate-800 hover:bg-slate-700 text-cyan-400 rounded-xl text-sm border border-slate-700 cursor-pointer" title="Lihat QR Code">
-                                    <i class="fa-solid fa-qrcode"></i>
-                                </button>
-                                <a id="open-primary-btn" href="#" target="_blank" rel="noopener noreferrer" class="px-4 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-sm font-semibold flex items-center justify-center gap-1.5">
-                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                    <span>Buka</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Riwayat Link -->
-                <section class="glass-card border border-slate-800/90 rounded-2xl p-6 sm:p-8 shadow-xl">
-                    <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
-                        <div>
-                            <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                                <i class="fa-solid fa-clock-rotate-left text-cyan-400"></i>
-                                Riwayat Short Link Anda
-                            </h2>
-                            <p class="text-xs text-slate-400">Semua link di bawah ini aktif di internet dan bisa langsung diklik.</p>
-                        </div>
-                        <button type="button" id="clear-history-btn" class="px-3 py-1.5 bg-rose-950/50 hover:bg-rose-900/70 text-rose-300 border border-rose-800/50 rounded-lg text-xs font-medium cursor-pointer">
-                            <i class="fa-solid fa-trash-can mr-1"></i> Hapus Semua
-                        </button>
-                    </div>
-
-                    <div id="empty-history" class="text-center py-10 text-slate-500 text-xs">
-                        Belum ada riwayat short link yang dibuat.
-                    </div>
-
-                    <div id="history-list" class="space-y-3 hidden"></div>
-                </section>
-            </main>
+        <div class="digital-time" id="solar-clock-display">00:00:00</div>
+        <div class="clock-meta">
+          <span id="eot-info">Koreksi EoT: +0.0 mnt</span>
+          <span id="longitude-info">Bujur: 110.36° BT</span>
         </div>
+      </article>
 
-        <footer class="mt-12 pt-6 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-            <div class="flex items-center gap-2">
-                <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 blinking-dot"></span>
-                <span>Engineered by <strong class="text-emerald-400 mono-font">developer : fatur62</strong></span>
-            </div>
-            <div>&copy; 2026 NexusLink Pro — Real Global Shortener.</div>
-        </footer>
-    </div>
+      <!-- Jam 2: Waktu Jam Standar (Civil Time) -->
+      <article class="clock-card">
+        <div class="clock-header">
+          <span class="clock-label">Waktu Jam Standar Umum</span>
+          <span class="clock-tag" id="tz-badge">WIB / UTC+7</span>
+        </div>
+        <div class="digital-time" id="standard-clock-display">00:00:00</div>
+        <div class="clock-meta">
+          <span id="location-label">Lokasi: Yogyakarta / Depok</span>
+          <span id="solar-diff-info">Selisih Surya: +0 mnt</span>
+        </div>
+      </article>
+    </section>
 
-    <!-- SCRIPT UTAMA (ES6+ & Safe JSON Handling) -->
-    <script>
-        const STORAGE_KEY = 'nexuslink_real_fatur62_v4';
-        const CLOCK_MODE_KEY = 'nexuslink_clock_mode_fatur62';
+    <!-- PANEL KONTROL LOKASI & SIMULASI TANGGAL -->
+    <section class="control-bar">
+      <div class="control-group">
+        <label for="city-select">Titik Meridian Jam Matahari:</label>
+        <select id="city-select" class="input-luxury">
+          <option value='{"name":"Yogyakarta (Keraton)","lat":-7.8014,"lon":110.3647,"tz":7}'>Yogyakarta (110.36° BT)</option>
+          <option value='{"name":"Surakarta (Solo)","lat":-7.5755,"lon":110.8243,"tz":7}'>Surakarta / Solo (110.82° BT)</option>
+          <option value='{"name":"Jakarta","lat":-6.2088,"lon":106.8456,"tz":7}'>Jakarta (106.85° BT)</option>
+          <option value='{"name":"Surabaya","lat":-7.2575,"lon":112.7521,"tz":7}'>Surabaya (112.75° BT)</option>
+          <option value='{"name":"Makkah Al-Mukarramah","lat":21.4225,"lon":39.8262,"tz":3}'>Makkah (39.83° BT)</option>
+        </select>
+        <button type="button" id="btn-gps" class="btn-luxury">Gunakan GPS</button>
+      </div>
 
-        // Elemen DOM Form & Riwayat
-        const form = document.getElementById('shortener-form');
-        const longUrlInput = document.getElementById('long-url');
-        const serverSelect = document.getElementById('server-domain');
-        const prefixInput = document.getElementById('custom-prefix');
-        const slugInput = document.getElementById('custom-slug');
-        const previewServer = document.getElementById('preview-server');
-        const previewPrefix = document.getElementById('preview-prefix');
-        const previewSep = document.getElementById('preview-sep');
-        const previewSlug = document.getElementById('preview-slug');
-        const submitBtn = document.getElementById('submit-btn');
-        const errorAlert = document.getElementById('error-alert');
-        const errorMessage = document.getElementById('error-message');
-        const resultCard = document.getElementById('result-card');
-        const shortLinkOutput = document.getElementById('short-link-output');
-        const openPrimaryBtn = document.getElementById('open-primary-btn');
+      <div class="control-group">
+        <label for="date-picker">Simulasi Tanggal:</label>
+        <input type="date" id="date-picker" class="input-luxury">
+        <button type="button" id="btn-reset-today" class="btn-luxury">Hari Ini (Live)</button>
+      </div>
+    </section>
 
-        // Elemen DOM Jam Digital & Analog
-        const digitalClockView = document.getElementById('digital-clock-view');
-        const analogClockView = document.getElementById('analog-clock-view');
-        const btnModeDigital = document.getElementById('btn-mode-digital');
-        const btnModeAnalog = document.getElementById('btn-mode-analog');
-        const digitalTimeEl = document.getElementById('digital-time');
-        const digitalDateEl = document.getElementById('digital-date');
-        const analogHourHand = document.getElementById('analog-hour');
-        const analogMinuteHand = document.getElementById('analog-minute');
-        const analogSecondHand = document.getElementById('analog-second');
-        const analogSubTimeEl = document.getElementById('analog-sub-time');
-        const analogDateEl = document.getElementById('analog-date');
+    <!-- 3 SISTEM KALENDER -->
+    <section class="calendars-grid" aria-label="Tiga Sistem Kalender">
+      <!-- 1. Kalender Gregorian -->
+      <article class="cal-card">
+        <span class="cal-badge">1. Sistem Internasional</span>
+        <div class="cal-main-date">
+          <div class="cal-day-number" id="greg-day">--</div>
+          <div class="cal-month-year" id="greg-month-year">--- ----</div>
+          <div class="cal-sub-day" id="greg-weekday">---</div>
+        </div>
+        <div class="cal-details-list">
+          <div class="detail-item">
+            <span class="detail-label">Hari ke- (Tahun Ini)</span>
+            <span class="detail-value" id="greg-doy">-- / 365</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Minggu ISO</span>
+            <span class="detail-value" id="greg-week">Minggu ke--</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Julian Day Number (JDN)</span>
+            <span class="detail-value highlight" id="greg-jdn">--</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Status Tahun</span>
+            <span class="detail-value" id="greg-leap">--</span>
+          </div>
+        </div>
+      </article>
 
-        // ==================== LOGIKA JAM DIGITAL & ANALOG REALISTIK ====================
-        function updateClock() {
-            const now = new Date();
-            const hours = now.getHours();
-            const minutes = now.getMinutes();
-            const seconds = now.getSeconds();
+      <!-- 2. Kalender Hijriyah -->
+      <article class="cal-card">
+        <span class="cal-badge">2. Sistem Kamariyah (Hijriyah)</span>
+        <div class="cal-main-date">
+          <div class="cal-day-number" id="hijri-day">--</div>
+          <div class="cal-month-year" id="hijri-month-year">--- ---- H</div>
+          <div class="cal-sub-day" id="hijri-weekday">---</div>
+        </div>
+        <div class="cal-details-list">
+          <div class="detail-item">
+            <span class="detail-label">Urutan Bulan Hijriyah</span>
+            <span class="detail-value" id="hijri-month-num">Bulan ke--</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Estimasi Fase Bulan</span>
+            <span class="detail-value highlight" id="hijri-moon-phase">--</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Metode Hisab</span>
+            <span class="detail-value">Umm al-Qura / Astronomis</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Pergantian Hari</span>
+            <span class="detail-value">Saat Terbenam Matahari (Maghrib)</span>
+          </div>
+        </div>
+      </article>
 
-            // 1. Update Jam Digital
-            const pad = (n) => String(n).padStart(2, '0');
-            digitalTimeEl.textContent = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+      <!-- 3. Kalender Nusantara (Sultan Agungan) -->
+      <article class="cal-card">
+        <span class="cal-badge">3. Nusantara (Sultan Agungan)</span>
+        <div class="cal-main-date">
+          <div class="cal-day-number" id="java-day">--</div>
+          <div class="cal-month-year" id="java-month-year">--- ---- AJ</div>
+          <div class="cal-sub-day" id="java-weton">--- ---</div>
+        </div>
+        <div class="cal-details-list">
+          <div class="detail-item">
+            <span class="detail-label">Hari & Pasaran (Weton)</span>
+            <span class="detail-value highlight" id="java-pasaran-detail">--</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Total Neptu (Dina + Pasaran)</span>
+            <span class="detail-value highlight" id="java-neptu">--</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Nama Tahun & Windu</span>
+            <span class="detail-value" id="java-year-name">--</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Wuku (Siklus 30 Pekan)</span>
+            <span class="detail-value" id="java-wuku">--</span>
+          </div>
+        </div>
+      </article>
+    </section>
 
-            const dateFormatted = now.toLocaleDateString('id-ID', {
-                weekday: 'short',
-                day: '2-digit',
-                month: 'short',
-                year: 'numeric'
-            });
-            digitalDateEl.textContent = dateFormatted;
-            analogDateEl.textContent = dateFormatted;
-            analogSubTimeEl.textContent = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+    <!-- KALENDER JAWA KHUSUS PRANATA MANGSA -->
+    <section class="mangsa-card" aria-label="Kalender Pranata Mangsa">
+      <div class="mangsa-header">
+        <div class="mangsa-title-block">
+          <h2 id="mangsa-name">MANGSA -- (---)</h2>
+          <p id="mangsa-subtitle">Kalender Ekologi & Agraris Surya Nusantara (Pakem Kasunanan / Sultan Agung)</p>
+        </div>
+        <div class="mangsa-period-pill" id="mangsa-period-range">-- s/d --</div>
+      </div>
 
-            // 2. Kalkulasi Sudut Derajat Jarum Jam Analog
-            const secondDeg = seconds * 6; // 360 / 60
-            const minuteDeg = (minutes * 6) + (seconds * 0.1); // Bergerak halus mengikuti detik
-            const hourDeg = ((hours % 12) * 30) + (minutes * 0.5); // 360 / 12 + proporsi menit
+      <div class="mangsa-grid">
+        <div class="mangsa-box">
+          <span>Candraning Mangsa (Simbol Alam)</span>
+          <p id="mangsa-candra">--</p>
+        </div>
+        <div class="mangsa-box">
+          <span>Karakteristik Iklim & Ekologi</span>
+          <p id="mangsa-ecology">--</p>
+        </div>
+        <div class="mangsa-box">
+          <span>Panduan Tani & Aktivitas</span>
+          <p id="mangsa-farming">--</p>
+        </div>
+        <div class="mangsa-box">
+          <span>Mangsa Utama & Durasi</span>
+          <p id="mangsa-duration-info">--</p>
+        </div>
+      </div>
 
-            // Mencegah efek putar balik saat detik kembali dari 59 ke 0
-            if (seconds === 0) {
-                analogSecondHand.classList.add('no-transition');
-            } else {
-                analogSecondHand.classList.remove('no-transition');
-            }
+      <div class="progress-container">
+        <div class="progress-labels">
+          <span id="mangsa-day-progress">Hari ke-- dari -- hari</span>
+          <span id="mangsa-percent">0%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="mangsa-progress-bar"></div>
+        </div>
+      </div>
+    </section>
+  </div>
 
-            analogHourHand.setAttribute('transform', `rotate(${hourDeg} 50 50)`);
-            analogMinuteHand.setAttribute('transform', `rotate(${minuteDeg} 50 50)`);
-            analogSecondHand.setAttribute('transform', `rotate(${secondDeg} 50 50)`);
+  <script>
+    "use strict";
+
+    /**
+     * DATASET JSON KALENDER NUSANTARA & PRANATA MANGSA
+     * Dibungkus dan divalidasi secara ketat menggunakan JSON.parse dengan try-catch
+     */
+    const RAW_NUSANTARA_JSON = `{
+      "saptawara": [
+        { "id": "Minggu", "jawa": "Akad", "arab": "Al-Ahad", "neptu": 5 },
+        { "id": "Senin", "jawa": "Senen", "arab": "Al-Ithnayn", "neptu": 4 },
+        { "id": "Selasa", "jawa": "Selasa", "arab": "Ath-Thulatha", "neptu": 3 },
+        { "id": "Rabu", "jawa": "Rebo", "arab": "Al-Arbi'a", "neptu": 7 },
+        { "id": "Kamis", "jawa": "Kemis", "arab": "Al-Khamis", "neptu": 8 },
+        { "id": "Jumat", "jawa": "Jemuwah", "arab": "Al-Jumu'ah", "neptu": 6 },
+        { "id": "Sabtu", "jawa": "Setu", "arab": "As-Sabt", "neptu": 9 }
+      ],
+      "pancawara": [
+        { "nama": "Legi", "krama": "Manis", "neptu": 5, "arah": "Timur" },
+        { "nama": "Pahing", "krama": "Pait", "neptu": 9, "arah": "Selatan" },
+        { "nama": "Pon", "krama": "Petak", "neptu": 7, "arah": "Barat" },
+        { "nama": "Wage", "krama": "Cemeng", "neptu": 4, "arah": "Utara" },
+        { "nama": "Kliwon", "krama": "Asih", "neptu": 8, "arah": "Tengah" }
+      ],
+      "wulanJawa": [
+        "Sura", "Sapar", "Mulud", "Bakda Mulud", "Jumadilawal", "Jumadilakir",
+        "Rejeb", "Ruwah", "Pasa", "Sawal", "Sela", "Besar"
+      ],
+      "wulanHijri": [
+        "Muharram", "Safar", "Rabi'ul Awal", "Rabi'ul Akhir", "Jumadil Awal", "Jumadil Akhir",
+        "Rajab", "Sya'ban", "Ramadhan", "Syawal", "Dzulqa'dah", "Dzulhijjah"
+      ],
+      "tahunWindu": [
+        { "nama": "Alip", "umur": 354 },
+        { "nama": "Ehe", "umur": 355 },
+        { "nama": "Jimawal", "umur": 354 },
+        { "nama": "Je", "umur": 354 },
+        { "nama": "Dal", "umur": 355 },
+        { "nama": "Be", "umur": 354 },
+        { "nama": "Wawu", "umur": 354 },
+        { "nama": "Jimakir", "umur": 355 }
+      ],
+      "namaWindu": ["Adi", "Kuntara", "Sengara", "Sancaya"],
+      "wuku": [
+        "Sinta", "Landep", "Wukir", "Kurantil", "Tolu", "Gumbreg", "Warigalit", "Warigagung",
+        "Julungwangi", "Sungsang", "Galungan", "Kuningan", "Langkir", "Mandasiya", "Julungpujut",
+        "Pahang", "Kuruwelut", "Mrakeh", "Tambir", "Medangkungan", "Maktal", "Wuye", "Manahil",
+        "Prangbakat", "Bala", "Wugu", "Wayang", "Kulawu", "Dukut", "Watugunung"
+      ],
+      "pranataMangsa": [
+        {
+          "no": "I",
+          "nama": "Kasa (Kartika)",
+          "startMonth": 6, "startDay": 22, "endMonth": 8, "endDay": 1, "durasi": 41,
+          "induk": "Ketiga (Kemarau)",
+          "candra": "Sotya Murca Ing Embana (Permata jatuh dari embanan/dedaunan gugur)",
+          "ekologi": "Udara kering di siang hari dan sangat dingin saat malam/dini hari, daun berguguran.",
+          "tani": "Saat membakar jerami, mengolah lahan kering, dan menanam palawija (jagung, ketela, kacang)."
+        },
+        {
+          "no": "II",
+          "nama": "Karo (Pusa)",
+          "startMonth": 8, "startDay": 2, "endMonth": 8, "endDay": 24, "durasi": 23,
+          "induk": "Ketiga (Kemarau)",
+          "candra": "Bantala Rengka (Tanah merekah karena terik kemarau)",
+          "ekologi": "Tanah sawah retak-retak, pohon randu dan mangga mulai berbunga.",
+          "tani": "Pemeliharaan tanaman palawija dan perbaikan saluran irigasi desa."
+        },
+        {
+          "no": "III",
+          "nama": "Katelu (Manggasri)",
+          "startMonth": 8, "startDay": 25, "endMonth": 9, "endDay": 17, "durasi": 24,
+          "induk": "Ketiga (Kemarau)",
+          "candra": "Suta Manut Ing Bapa (Anak menurut bapak/sulur tanaman merambat naik)",
+          "ekologi": "Sumur mulai menyusut, rebung bambu mulai tumbuh, angin bertiup kencang.",
+          "tani": "Masa panen raya palawija dan tanaman umbi-umbian."
+        },
+        {
+          "no": "IV",
+          "nama": "Kapat (Sitra)",
+          "startMonth": 9, "startDay": 18, "endMonth": 10, "endDay": 12, "durasi": 25,
+          "induk": "Labuh (Peralihan Kemarau ke Hujan)",
+          "candra": "Waspa Kumembeng Jroning Kalbu (Air mata menggenang/mata air mulai terisi)",
+          "ekologi": "Hujan rintik pertama mulai turun, burung pipit dan manyar membuat sarang.",
+          "tani": "Persiapan lahan sawah tadah hujan dan penanaman padi gogo."
+        },
+        {
+          "no": "V",
+          "nama": "Kalima (Manggala)",
+          "startMonth": 10, "startDay": 13, "endMonth": 11, "endDay": 8, "durasi": 27,
+          "induk": "Labuh (Awal Musim Penghujan)",
+          "candra": "Pancuran Mas Sumawur Ing Jagad (Pancuran emas menyebar di bumi/hujan mulai deras)",
+          "ekologi": "Hujan turun merata, pohon asam bertunas daun muda (sinom), laron mulai keluar.",
+          "tani": "Mulai membajak sawah, menyebar benih padi, dan menanam pohon buah-buahan."
+        },
+        {
+          "no": "VI",
+          "nama": "Kanem (Naya)",
+          "startMonth": 11, "startDay": 9, "endMonth": 12, "endDay": 21, "durasi": 43,
+          "induk": "Labuh - Rendheng (Musim Hujan)",
+          "candra": "Rasa Mulya Kasucian (Kenikmatan suci/buah-buahan mulai masak sempurna)",
+          "ekologi": "Curah hujan tinggi, buah rambutan, durian, dan manggis mulai matang.",
+          "tani": "Masa tanam padi serentak (tandur) di lahan persawahan."
+        },
+        {
+          "no": "VII",
+          "nama": "Kapitu (Palguna)",
+          "startMonth": 12, "startDay": 22, "endMonth": 2, "endDay": 2, "durasi": 43,
+          "induk": "Rendheng (Puncak Penghujan)",
+          "candra": "Wisa Kentar Ing Maruta (Bisa/penyakit terbawa angin kencang dan banjir)",
+          "ekologi": "Puncak hujan lebat, angin kencang, sungai meluap, udara lembap.",
+          "tani": "Penyiangan gulma padi (matun) dan pemantauan tata air sawah."
+        },
+        {
+          "no": "VIII",
+          "nama": "Kawolu (Wisaka)",
+          "startMonth": 2, "startDay": 3, "endMonth": 2, "endDay": 28, "durasi": 26,
+          "induk": "Rendheng (Penghujan)",
+          "candra": "Anjrah Jroning Kayun (Semerbak di dalam hati/padi mulai menghijau & berbunga)",
+          "ekologi": "Musim kucing kawin, ulat dan tempayak banyak muncul, hujan mulai berkurang sedikit.",
+          "tani": "Padi mulai bunting (meteng) dan berbunga, penjagaan dari hama burung."
+        },
+        {
+          "no": "IX",
+          "nama": "Kasanga (Jita)",
+          "startMonth": 3, "startDay": 1, "endMonth": 3, "endDay": 25, "durasi": 25,
+          "induk": "Rendheng - Mareng (Akhir Hujan)",
+          "candra": "Wedharing Wacana Mulya (Tersiarnya kabar mulia/suara garengpung & jangkrik)",
+          "ekologi": "Serangga tonggeret (garengpung) berbunyi nyaring, padi mulai menguning.",
+          "tani": "Persiapan masa panen padi rendheng dan pengeringan petak sawah."
+        },
+        {
+          "no": "X",
+          "nama": "Kadasa (Srawana)",
+          "startMonth": 3, "startDay": 26, "endMonth": 4, "endDay": 18, "durasi": 24,
+          "induk": "Mareng (Peralihan Hujan ke Kemarau)",
+          "candra": "Gedhong Minep Jroning Kalbu (Gedung tertutup di hati/hewan mengerami telur)",
+          "ekologi": "Hujan jarang turun, udara mulai hangat, burung-burung mengerami telur.",
+          "tani": "Panen raya padi sawah (ani-ani) dan menjemur gabah."
+        },
+        {
+          "no": "XI",
+          "nama": "Dhesta (Padrawana)",
+          "startMonth": 4, "startDay": 19, "endMonth": 5, "endDay": 11, "durasi": 23,
+          "induk": "Mareng (Menjelang Kemarau)",
+          "candra": "Sotya Sinarawedi (Intan digosok/anak burung mulai disuapi induknya)",
+          "ekologi": "Sinar matahari cerah, bunga randu mulai mekar, kelembapan menurun.",
+          "tani": "Selesai panen padi, mulai menanam tanaman umur pendek (sayuran/kedelai)."
+        },
+        {
+          "no": "XII",
+          "nama": "Saddha (Asuji)",
+          "startMonth": 5, "startDay": 12, "endMonth": 6, "endDay": 21, "durasi": 41,
+          "induk": "Mareng - Ketiga",
+          "candra": "Tirta Sah Saka Sasana (Air meninggalkan tempatnya/udara sejuk & kering)",
+          "ekologi": "Jarang berkeringat karena udara kering-dingin (bedhidhing awal), embun pagi tebal.",
+          "tani": "Pengolahan tanah untuk tanaman kemarau dan penjemuran hasil bumi."
         }
+      ]
+    }`;
 
-        function setClockMode(mode) {
-            const activeClass = ['bg-cyan-500/20', 'text-cyan-300', 'border', 'border-cyan-500/30'];
-            const inactiveClass = ['text-slate-400', 'hover:text-slate-200'];
-
-            if (mode === 'analog') {
-                digitalClockView.classList.add('hidden');
-                analogClockView.classList.remove('hidden');
-                analogClockView.classList.add('flex');
-
-                btnModeAnalog.classList.add(...activeClass);
-                btnModeAnalog.classList.remove(...inactiveClass);
-                btnModeDigital.classList.remove(...activeClass);
-                btnModeDigital.classList.add(...inactiveClass);
-            } else {
-                analogClockView.classList.add('hidden');
-                analogClockView.classList.remove('flex');
-                digitalClockView.classList.remove('hidden');
-
-                btnModeDigital.classList.add(...activeClass);
-                btnModeDigital.classList.remove(...inactiveClass);
-                btnModeAnalog.classList.remove(...activeClass);
-                btnModeAnalog.classList.add(...inactiveClass);
-            }
-
-            try {
-                localStorage.setItem(CLOCK_MODE_KEY, mode);
-            } catch (e) {
-                console.error('Gagal menyimpan mode jam:', e);
-            }
+    function parseSafeJson(rawString, fallback = {}) {
+      try {
+        if (!rawString || typeof rawString !== "string") {
+          return fallback;
         }
+        const parsed = JSON.parse(rawString);
+        return parsed && typeof parsed === "object" ? parsed : fallback;
+      } catch (err) {
+        console.error("Gagal melakukan parsing JSON:", err);
+        return fallback;
+      }
+    }
 
-        function initClockPreference() {
-            try {
-                const savedMode = localStorage.getItem(CLOCK_MODE_KEY);
-                if (savedMode === 'analog' || savedMode === 'digital') {
-                    setClockMode(savedMode);
-                } else {
-                    setClockMode('analog'); // Default menampilkan Jam Jarum Realistik
-                }
-            } catch (e) {
-                setClockMode('analog');
-            }
-            updateClock();
-            setInterval(updateClock, 1000);
+    const DB = parseSafeJson(RAW_NUSANTARA_JSON, {});
+
+    // State Aplikasi
+    const appState = {
+      location: {
+        name: "Yogyakarta (Keraton)",
+        lat: -7.8014,
+        lon: 110.3647,
+        tz: 7
+      },
+      customDate: null // null = Live Real-time
+    };
+
+    /**
+     * KALKULASI JULIAN DAY NUMBER (JDN) PRESISI (UT/LOKAL TENGAH HARI)
+     */
+    function getJulianDayNumber(year, month, day) {
+      const a = Math.floor((14 - month) / 12);
+      const y = year + 4800 - a;
+      const m = month + 12 * a - 3;
+      return (
+        day +
+        Math.floor((153 * m + 2) / 5) +
+        365 * y +
+        Math.floor(y / 4) -
+        Math.floor(y / 100) +
+        Math.floor(y / 400) -
+        32045
+      );
+    }
+
+    function isLeapYearGregorian(year) {
+      return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+    }
+
+    /**
+     * KALKULASI JAM MATAHARI (APPARENT SOLAR TIME) & EQUATION OF TIME
+     */
+    function calculateSolarTime(now, lon, tzOffsetHours) {
+      const startOfYear = new Date(now.getFullYear(), 0, 0);
+      const diffMs = now - startOfYear;
+      const dayOfYear = Math.floor(diffMs / 86400000);
+
+      const hours = now.getHours() + now.getMinutes() / 60 + now.getSeconds() / 3600;
+      const gamma = ((2 * Math.PI) / 365.25) * (dayOfYear - 1 + (hours - 12) / 24);
+
+      // Rumus Astronomis Spencer (dalam menit)
+      const eotMinutes =
+        229.18 *
+        (0.000075 +
+          0.001868 * Math.cos(gamma) -
+          0.032077 * Math.sin(gamma) -
+          0.014615 * Math.cos(2 * gamma) -
+          0.040849 * Math.sin(2 * gamma));
+
+      const standardMeridian = tzOffsetHours * 15;
+      const longitudeCorrectionMinutes = 4 * (lon - standardMeridian);
+      const totalOffsetSeconds = (longitudeCorrectionMinutes + eotMinutes) * 60;
+
+      // Hitung waktu lokal berdasarkan zona waktu kota yang dipilih
+      const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
+      const cityStandardDate = new Date(utcMs + tzOffsetHours * 3600000);
+      const solarDate = new Date(cityStandardDate.getTime() + totalOffsetSeconds * 1000);
+
+      return {
+        cityStandardDate,
+        solarDate,
+        eotMinutes,
+        longitudeCorrectionMinutes,
+        totalOffsetMinutes: longitudeCorrectionMinutes + eotMinutes
+      };
+    }
+
+    /**
+     * KALKULASI KALENDER NUSANTARA (SULTAN AGUNGAN - KURUP ASAPON / ABOGE)
+     * Anchor terverifikasi: 7 November 2026 = Sabtu Pahing, 26 Jumadilawal 1960 AJ, Wuku Wukir
+     */
+    function calculateSultanAgungan(year, month, day) {
+      const jdn = getJulianDayNumber(year, month, day);
+
+      // 1. Saptawara & Pancawara (Weton)
+      // Anchor JDN 2461352 (7 Nov 2026) -> Sabtu (index 6), Pahing (index 1)
+      const saptaIdx = ((jdn - 2461352) % 7 + 7 + 6) % 7;
+      const pancaIdx = ((jdn - 2461352) % 5 + 5 + 1) % 5;
+
+      const dina = DB.saptawara?.[saptaIdx] || { id: "-", jawa: "-", neptu: 0 };
+      const pasaran = DB.pancawara?.[pancaIdx] || { nama: "-", krama: "-", neptu: 0, arah: "-" };
+
+      // 2. Wuku (Siklus 210 Hari = 30 Wuku x 7 Hari, berganti setiap hari Minggu/Akad)
+      // Pada 7 Nov 2026 (JDN 2461352), Wuku = Wukir (index 2, hari ke-7 dari Wuku Wukir)
+      // Awal Wuku Sinta terdekat sebelum anchor: JDN 2461332 (18 Okt 2026 = Minggu Pon)
+      const daysSinceSinta = ((jdn - 2461332) % 210 + 210) % 210;
+      const wukuIdx = Math.floor(daysSinceSinta / 7);
+      const wukuName = DB.wuku?.[wukuIdx] || "-";
+
+      // 3. Tanggal, Wulan, Tahun Jawa (AJ), dan Windu
+      // Gunakan Intl islamic-civil / tabular dengan koreksi epoch Sultan Agungan (+512 tahun dari Hijriyah)
+      let jDay = 1;
+      let jMonthIdx = 0;
+      let jYearAJ = 1960;
+
+      // Anchor siklus Kurup Asapon: 1 Sura 1955 AJ (Tahun Alip) = 10 Agustus 2021 (JDN 2459437)
+      const epochAlip1955JDN = 2459437;
+      const winduLengths = [354, 355, 354, 354, 355, 354, 354, 355]; // Total 1 Windu = 2835 hari
+      const diffFromEpoch = jdn - epochAlip1955JDN;
+
+      const winduCycleCount = Math.floor(diffFromEpoch / 2835);
+      let remDays = ((diffFromEpoch % 2835) + 2835) % 2835;
+
+      let yearInWinduIdx = 0;
+      for (let i = 0; i < 8; i++) {
+        if (remDays < winduLengths[i]) {
+          yearInWinduIdx = i;
+          break;
         }
+        remDays -= winduLengths[i];
+      }
 
-        // ==================== LOGIKA PEMBUAT SHORT LINK ====================
-        function cleanIdentifier(str) {
-            if (typeof str !== 'string') return '';
-            return str.trim().replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+      jYearAJ = 1955 + winduCycleCount * 8 + yearInWinduIdx;
+      const isKabisaJawa = winduLengths[yearInWinduIdx] === 355;
+
+      // Panjang bulan Jawa bergantian 30 dan 29 hari; bulan ke-12 (Besar) 30 hari pada tahun Kabisat (Ehe, Dal, Jimakir)
+      const monthLengths = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, isKabisaJawa ? 30 : 29];
+      for (let m = 0; m < 12; m++) {
+        if (remDays < monthLengths[m]) {
+          jMonthIdx = m;
+          jDay = remDays + 1;
+          break;
         }
+        remDays -= monthLengths[m];
+      }
 
-        function generateRandomCode(len = 4) {
-            const chars = 'abcdefghjkmnpqrstuvwxyz23456789';
-            let out = '';
-            for (let i = 0; i < len; i++) {
-                out += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return out;
-        }
+      const tahunObj = DB.tahunWindu?.[yearInWinduIdx] || { nama: "Alip" };
+      const winduNameIdx = ((winduCycleCount + 3) % 4 + 4) % 4; // 1955-1962 AJ adalah Windu Sancaya/Adi
+      const winduName = DB.namaWindu?.[winduNameIdx] || "Sancaya";
 
-        function updateLivePreview() {
-            const srv = serverSelect.value;
-            const pfx = cleanIdentifier(prefixInput.value);
-            const slg = cleanIdentifier(slugInput.value) || 'link_anda';
+      return {
+        day: jDay,
+        monthName: DB.wulanJawa?.[jMonthIdx] || "Sura",
+        yearAJ: jYearAJ,
+        dina,
+        pasaran,
+        neptuTotal: dina.neptu + pasaran.neptu,
+        tahunJawa: tahunObj.nama,
+        winduName,
+        wukuName
+      };
+    }
 
-            previewServer.textContent = srv;
-            previewPrefix.textContent = pfx;
-            previewSep.textContent = pfx ? '_' : '';
-            previewSlug.textContent = slg;
-        }
-
-        function createRealShortLinkJSONP(provider, targetUrl, customShortSlug) {
-            return new Promise((resolve, reject) => {
-                const callbackName = 'jsonp_cb_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
-                const script = document.createElement('script');
-
-                const timeoutId = setTimeout(() => {
-                    cleanup();
-                    reject(new Error('Waktu koneksi ke server habis. Silakan coba lagi.'));
-                }, 10000);
-
-                function cleanup() {
-                    clearTimeout(timeoutId);
-                    delete window[callbackName];
-                    if (script.parentNode) {
-                        script.parentNode.removeChild(script);
-                    }
-                }
-
-                window[callbackName] = (data) => {
-                    cleanup();
-                    if (data && data.shorturl) {
-                        resolve(data.shorturl);
-                    } else if (data && data.errormessage) {
-                        reject(new Error(data.errormessage));
-                    } else {
-                        reject(new Error('Gagal membuat short link.'));
-                    }
-                };
-
-                script.onerror = () => {
-                    cleanup();
-                    reject(new Error('Gagal menghubungi server pemendek URL. Periksa koneksi internet Anda.'));
-                };
-
-                const encodedUrl = encodeURIComponent(targetUrl);
-                const encodedSlug = encodeURIComponent(customShortSlug);
-                script.src = `https://${provider}/create.php?format=json&callback=${callbackName}&url=${encodedUrl}&shorturl=${encodedSlug}`;
-                document.body.appendChild(script);
-            });
-        }
-
-        function isValidHttpUrl(str) {
-            try {
-                const u = new URL(str);
-                return u.protocol === 'http:' || u.protocol === 'https:';
-            } catch (_) {
-                return false;
-            }
-        }
-
-        function getStoredHistory() {
-            try {
-                const raw = localStorage.getItem(STORAGE_KEY);
-                if (!raw) return [];
-                const parsed = JSON.parse(raw);
-                return Array.isArray(parsed) ? parsed : [];
-            } catch (err) {
-                console.error('JSON Parse Error:', err);
-                return [];
-            }
-        }
-
-        function saveHistory(list) {
-            try {
-                if (!Array.isArray(list)) return;
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-            } catch (err) {
-                console.error('JSON Save Error:', err);
-            }
-        }
-
-        function showError(msg) {
-            errorMessage.textContent = msg;
-            errorAlert.classList.remove('hidden');
-        }
-
-        function hideError() {
-            errorAlert.classList.add('hidden');
-        }
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            hideError();
-
-            let longUrl = longUrlInput.value.trim();
-            if (!longUrl) {
-                showError('Masukkan link panjang terlebih dahulu.');
-                longUrlInput.focus();
-                return;
-            }
-
-            if (!/^https?:\/\//i.test(longUrl)) {
-                longUrl = 'https://' + longUrl;
-            }
-
-            if (!isValidHttpUrl(longUrl)) {
-                showError('Format link panjang tidak valid.');
-                return;
-            }
-
-            const provider = serverSelect.value;
-            const prefix = cleanIdentifier(prefixInput.value);
-            let slug = cleanIdentifier(slugInput.value);
-
-            if (!slug) {
-                slug = generateRandomCode(5);
-                slugInput.value = slug;
-                updateLivePreview();
-            }
-
-            const combinedSlug = prefix ? `${prefix}_${slug}` : slug;
-
-            if (combinedSlug.length < 5) {
-                showError('Gabungan Nama Depan dan Nama Link minimal harus 5 karakter.');
-                return;
-            }
-
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Mendaftarkan Link ke Server Global...</span>';
-
-            try {
-                const finalShortUrl = await createRealShortLinkJSONP(provider, longUrl, combinedSlug);
-
-                const newEntry = {
-                    id: Date.now(),
-                    longUrl: longUrl,
-                    shortUrl: finalShortUrl,
-                    date: new Date().toLocaleDateString('id-ID', {
-                        day: '2-digit',
-                        month: 'short',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    })
-                };
-
-                const history = getStoredHistory();
-                history.unshift(newEntry);
-                saveHistory(history);
-
-                shortLinkOutput.textContent = finalShortUrl;
-                shortLinkOutput.href = finalShortUrl;
-                openPrimaryBtn.href = finalShortUrl;
-                document.getElementById('result-time').textContent = newEntry.date;
-                resultCard.classList.remove('hidden');
-
-                slugInput.value = '';
-                updateLivePreview();
-                renderHistory();
-            } catch (err) {
-                let msg = err.message || 'Gagal membuat link.';
-                if (msg.toLowerCase().includes('already exists') || msg.toLowerCase().includes('taken')) {
-                    msg = `Nama link "${combinedSlug}" sudah pernah dipakai di server ${provider}! Silakan ketik Nama Link yang lain atau klik tombol Acak.`;
-                }
-                showError(msg);
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fa-solid fa-bolt"></i> <span>Buat Short Link Aktif Sekarang</span>';
-            }
+    /**
+     * KALKULASI KALENDER HIJRIYAH (UMM AL-QURA / FALLBACK TABULAR)
+     */
+    function calculateHijri(dateObj, jdn) {
+      try {
+        const fmt = new Intl.DateTimeFormat("id-ID-u-ca-islamic-umalqura", {
+          day: "numeric",
+          month: "numeric",
+          year: "numeric"
         });
+        const parts = fmt.formatToParts(dateObj);
+        const day = parseInt(parts.find(p => p.type === "day")?.value || "1", 10);
+        const month = parseInt(parts.find(p => p.type === "month")?.value || "1", 10);
+        const year = parseInt(parts.find(p => p.type === "year")?.value || "1448", 10);
 
-        function renderHistory() {
-            const history = getStoredHistory();
-            document.getElementById('stat-total-links').textContent = String(history.length);
+        return {
+          day,
+          monthNum: month,
+          monthName: DB.wulanHijri?.[month - 1] || "Muharram",
+          year
+        };
+      } catch (e) {
+        // Fallback ke algoritma Kuwaiti/Tabular jika browser tidak mendukung umalqura
+        let l = jdn - 1948440 + 10632;
+        const n = Math.floor((l - 1) / 10631);
+        l = l - 10631 * n + 354;
+        const j =
+          Math.floor((10985 - l) / 5316) * Math.floor((50 * l) / 17719) +
+          Math.floor(l / 5670) * Math.floor((43 * l) / 15238);
+        l =
+          l -
+          Math.floor((30 - j) / 15) * Math.floor((17719 * j) / 50) -
+          Math.floor(j / 16) * Math.floor((15238 * j) / 43) +
+          29;
+        const month = Math.floor((24 * l) / 709);
+        const day = l - Math.floor((709 * month) / 24);
+        const year = 30 * n + j - 30;
 
-            const emptyEl = document.getElementById('empty-history');
-            const listEl = document.getElementById('history-list');
+        return {
+          day,
+          monthNum: month,
+          monthName: DB.wulanHijri?.[month - 1] || "Muharram",
+          year
+        };
+      }
+    }
 
-            if (history.length === 0) {
-                emptyEl.classList.remove('hidden');
-                listEl.classList.add('hidden');
-                listEl.innerHTML = '';
-                return;
-            }
+    function getMoonPhaseLabel(hijriDay) {
+      if (hijriDay <= 2) return "Hilal Awal Bulan ( sabit muda )";
+      if (hijriDay <= 6) return "Sabit Awal (Waxing Crescent)";
+      if (hijriDay <= 9) return "Paruh Awal (First Quarter)";
+      if (hijriDay <= 12) return "Cembung Awal (Waxing Gibbous)";
+      if (hijriDay <= 16) return "Purnama Sempurna (Ayyamul Bidh)";
+      if (hijriDay <= 20) return "Cembung Akhir (Waning Gibbous)";
+      if (hijriDay <= 24) return "Paruh Akhir (Last Quarter)";
+      if (hijriDay <= 28) return "Sabit Tua (Waning Crescent)";
+      return "Ijtimak / Konjungsi Akhir Bulan";
+    }
 
-            emptyEl.classList.add('hidden');
-            listEl.classList.remove('hidden');
+    /**
+     * KALKULASI KALENDER PRANATA MANGSA
+     */
+    function calculatePranataMangsa(year, month, day) {
+      const mangsaList = Array.isArray(DB.pranataMangsa) ? DB.pranataMangsa : [];
+      const currentDate = new Date(year, month - 1, day);
+      const isLeap = isLeapYearGregorian(year);
 
-            listEl.innerHTML = history.map(item => `
-                <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div class="overflow-hidden">
-                        <div class="flex items-center gap-2.5 flex-wrap">
-                            <a href="${escapeHtml(item.shortUrl)}" target="_blank" rel="noopener noreferrer" class="text-sm sm:text-base font-bold mono-font text-emerald-400 hover:underline flex items-center gap-1.5">
-                                ${escapeHtml(item.shortUrl)}
-                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-                            </a>
-                            <span class="text-[11px] text-slate-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">${escapeHtml(item.date)}</span>
-                        </div>
-                        <p class="text-xs text-slate-400 truncate mono-font mt-1">${escapeHtml(item.longUrl)}</p>
-                    </div>
-                    <div class="flex items-center gap-2 shrink-0 self-end sm:self-center">
-                        <button type="button" data-copy="${escapeHtml(item.shortUrl)}" class="copy-item-btn px-3 py-1.5 bg-slate-900 hover:bg-cyan-500/20 text-cyan-300 border border-slate-800 rounded-lg text-xs font-medium cursor-pointer">
-                            <i class="fa-solid fa-copy mr-1"></i> Salin
-                        </button>
-                        <button type="button" data-qr="${escapeHtml(item.shortUrl)}" class="qr-item-btn px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 rounded-lg text-xs cursor-pointer">
-                            <i class="fa-solid fa-qrcode text-emerald-400"></i>
-                        </button>
-                        <button type="button" data-del="${Number(item.id)}" class="del-item-btn px-2.5 py-1.5 bg-slate-900 hover:bg-rose-950 text-slate-400 hover:text-rose-400 border border-slate-800 rounded-lg text-xs cursor-pointer">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </div>
-                </div>
-            `).join('');
+      for (const m of mangsaList) {
+        let startYear = year;
+        let endYear = year;
+
+        // Penanganan khusus Mangsa VII (22 Des - 2 Feb) yang melintasi pergantian tahun Masehi
+        if (m.startMonth === 12 && m.endMonth === 2) {
+          if (month === 12 && day >= 22) {
+            endYear = year + 1;
+          } else if (month <= 2) {
+            startYear = year - 1;
+          } else {
+            continue;
+          }
         }
 
-        function escapeHtml(str) {
-            if (typeof str !== 'string') return '';
-            return str
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
+        let endDayAdjusted = m.endDay;
+        if (m.no === "VIII" && isLeapYearGregorian(endYear)) {
+          endDayAdjusted = 29;
         }
 
-        function copyToClipboard(text, btnElement) {
-            navigator.clipboard.writeText(text).then(() => {
-                if (btnElement) {
-                    const original = btnElement.innerHTML;
-                    btnElement.innerHTML = '<i class="fa-solid fa-check text-emerald-400"></i> Tersalin';
-                    setTimeout(() => { btnElement.innerHTML = original; }, 1800);
-                }
-            }).catch(() => {
-                const ta = document.createElement('textarea');
-                ta.value = text;
-                document.body.appendChild(ta);
-                ta.select();
-                document.execCommand('copy');
-                document.body.removeChild(ta);
-            });
+        const startDate = new Date(startYear, m.startMonth - 1, m.startDay);
+        const endDate = new Date(endYear, m.endMonth - 1, endDayAdjusted);
+
+        if (currentDate >= startDate && currentDate <= endDate) {
+          const dayElapsed = Math.floor((currentDate - startDate) / 86400000) + 1;
+          const totalDurasi = m.no === "VIII" && isLeapYearGregorian(endYear) ? 27 : m.durasi;
+          const percentage = Math.min(100, Math.max(1, Math.round((dayElapsed / totalDurasi) * 100)));
+
+          return {
+            ...m,
+            dayElapsed,
+            totalDurasi,
+            percentage,
+            startDate,
+            endDate
+          };
         }
+      }
 
-        function openQrModal(url) {
-            const modal = document.getElementById('qr-modal');
-            document.getElementById('qr-modal-title').textContent = url;
-            document.getElementById('qr-modal-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=10&data=${encodeURIComponent(url)}`;
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+      return mangsaList[0];
+    }
+
+    /**
+     * RENDER JAM (REAL-TIME TICK)
+     */
+    function updateClocksUI() {
+      const now = new Date();
+      const { lon, tz, name } = appState.location;
+      const solarData = calculateSolarTime(now, lon, tz);
+
+      const pad = n => String(n).padStart(2, "0");
+
+      // Format Jam Matahari
+      const sH = pad(solarData.solarDate.getHours());
+      const sM = pad(solarData.solarDate.getMinutes());
+      const sS = pad(solarData.solarDate.getSeconds());
+      document.getElementById("solar-clock-display").textContent = `${sH}:${sM}:${sS}`;
+
+      // Format Jam Standar
+      const cH = pad(solarData.cityStandardDate.getHours());
+      const cM = pad(solarData.cityStandardDate.getMinutes());
+      const cS = pad(solarData.cityStandardDate.getSeconds());
+      document.getElementById("standard-clock-display").textContent = `${cH}:${cM}:${cS}`;
+
+      // Meta Info
+      const eotSign = solarData.eotMinutes >= 0 ? "+" : "";
+      document.getElementById("eot-info").textContent = `Koreksi EoT: ${eotSign}${solarData.eotMinutes.toFixed(2)} mnt`;
+      document.getElementById("longitude-info").textContent = `Bujur: ${lon.toFixed(2)}° ${lon >= 0 ? "BT" : "BB"}`;
+
+      const diffSign = solarData.totalOffsetMinutes >= 0 ? "+" : "";
+      document.getElementById("location-label").textContent = `Titik: ${name}`;
+      document.getElementById("solar-diff-info").textContent = `Selisih Surya: ${diffSign}${solarData.totalOffsetMinutes.toFixed(1)} mnt`;
+      document.getElementById("tz-badge").textContent = `UTC${tz >= 0 ? "+" : ""}${tz}`;
+    }
+
+    /**
+     * RENDER 3 KALENDER & PRANATA MANGSA
+     */
+    function updateCalendarsUI() {
+      const targetDate = appState.customDate ? new Date(appState.customDate) : new Date();
+      const year = targetDate.getFullYear();
+      const month = targetDate.getMonth() + 1;
+      const day = targetDate.getDate();
+
+      const jdn = getJulianDayNumber(year, month, day);
+      const jawaData = calculateSultanAgungan(year, month, day);
+      const hijriData = calculateHijri(targetDate, jdn);
+      const mangsaData = calculatePranataMangsa(year, month, day);
+
+      // 1. Update Kalender Gregorian
+      const namaBulanMasehi = [
+        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+      ];
+      const startOfYear = new Date(year, 0, 0);
+      const doy = Math.floor((targetDate - startOfYear) / 86400000);
+      const totalDaysYear = isLeapYearGregorian(year) ? 366 : 365;
+      const isoWeek = Math.ceil(doy / 7);
+
+      document.getElementById("greg-day").textContent = day;
+      document.getElementById("greg-month-year").textContent = `${namaBulanMasehi[month - 1]} ${year}`;
+      document.getElementById("greg-weekday").textContent = `Hari ${jawaData.dina.id}`;
+      document.getElementById("greg-doy").textContent = `Hari ke-${doy} dari ${totalDaysYear}`;
+      document.getElementById("greg-week").textContent = `Pekan ke-${isoWeek}`;
+      document.getElementById("greg-jdn").textContent = jdn.toLocaleString("id-ID");
+      document.getElementById("greg-leap").textContent = isLeapYearGregorian(year)
+        ? "Tahun Kabisat (366 Hari)"
+        : "Tahun Basitah (365 Hari)";
+
+      // 2. Update Kalender Hijriyah
+      document.getElementById("hijri-day").textContent = hijriData.day;
+      document.getElementById("hijri-month-year").textContent = `${hijriData.monthName} ${hijriData.year} H`;
+      document.getElementById("hijri-weekday").textContent = `Yaum ${jawaData.dina.arab}`;
+      document.getElementById("hijri-month-num").textContent = `Bulan ke-${hijriData.monthNum} (Kamariyah)`;
+      document.getElementById("hijri-moon-phase").textContent = getMoonPhaseLabel(hijriData.day);
+
+      // 3. Update Kalender Nusantara (Sultan Agungan)
+      document.getElementById("java-day").textContent = jawaData.day;
+      document.getElementById("java-month-year").textContent = `${jawaData.monthName} ${jawaData.yearAJ} AJ`;
+      document.getElementById("java-weton").textContent = `${jawaData.dina.jawa} ${jawaData.pasaran.nama}`;
+      document.getElementById("java-pasaran-detail").textContent = `${jawaData.dina.id} ${jawaData.pasaran.nama} (${jawaData.pasaran.krama})`;
+      document.getElementById("java-neptu").textContent = `${jawaData.neptuTotal} (${jawaData.dina.id}=${jawaData.dina.neptu} + ${jawaData.pasaran.nama}=${jawaData.pasaran.neptu})`;
+      document.getElementById("java-year-name").textContent = `Tahun ${jawaData.tahunJawa} • Windu ${jawaData.winduName}`;
+      document.getElementById("java-wuku").textContent = `Wuku ${jawaData.wukuName}`;
+
+      // 4. Update Pranata Mangsa
+      if (mangsaData) {
+        const fmtShort = new Intl.DateTimeFormat("id-ID", { day: "numeric", month: "long" });
+        document.getElementById("mangsa-name").textContent = `MANGSA ${mangsaData.no} — ${mangsaData.nama.toUpperCase()}`;
+        document.getElementById("mangsa-period-range").textContent = `${fmtShort.format(mangsaData.startDate)} – ${fmtShort.format(mangsaData.endDate)}`;
+        document.getElementById("mangsa-candra").textContent = mangsaData.candra;
+        document.getElementById("mangsa-ecology").textContent = mangsaData.ekologi;
+        document.getElementById("mangsa-farming").textContent = mangsaData.tani;
+        document.getElementById("mangsa-duration-info").textContent = `${mangsaData.induk} • Durasi ${mangsaData.totalDurasi} Hari`;
+        document.getElementById("mangsa-day-progress").textContent = `Berjalan hari ke-${mangsaData.dayElapsed} dari total ${mangsaData.totalDurasi} hari`;
+        document.getElementById("mangsa-percent").textContent = `${mangsaData.percentage}%`;
+        document.getElementById("mangsa-progress-bar").style.width = `${mangsaData.percentage}%`;
+      }
+    }
+
+    /**
+     * EVENT LISTENERS & INISIALISASI DOM
+     */
+    function initApp() {
+      const dateInput = document.getElementById("date-picker");
+      const citySelect = document.getElementById("city-select");
+      const btnReset = document.getElementById("btn-reset-today");
+      const btnGps = document.getElementById("btn-gps");
+
+      // Set nilai awal input tanggal ke hari ini
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, "0");
+      const dd = String(today.getDate()).padStart(2, "0");
+      dateInput.value = `${yyyy}-${mm}-${dd}`;
+
+      citySelect.addEventListener("change", (e) => {
+        const parsedCity = parseSafeJson(e.target.value, null);
+        if (parsedCity && typeof parsedCity.lon === "number") {
+          appState.location = parsedCity;
+          updateClocksUI();
         }
+      });
 
-        function closeQrModal() {
-            const modal = document.getElementById('qr-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+      dateInput.addEventListener("change", (e) => {
+        if (e.target.value) {
+          const [y, m, d] = e.target.value.split("-").map(Number);
+          appState.customDate = new Date(y, m - 1, d, 12, 0, 0);
+          updateCalendarsUI();
         }
+      });
 
-        // Inisialisasi Event Listeners
-        document.addEventListener('DOMContentLoaded', () => {
-            initClockPreference();
-            slugInput.value = 'promo' + generateRandomCode(3);
-            updateLivePreview();
-            renderHistory();
-        });
+      btnReset.addEventListener("click", () => {
+        appState.customDate = null;
+        const now = new Date();
+        dateInput.value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+        updateCalendarsUI();
+      });
 
-        btnModeDigital.addEventListener('click', () => setClockMode('digital'));
-        btnModeAnalog.addEventListener('click', () => setClockMode('analog'));
+      btnGps.addEventListener("click", () => {
+        if (!navigator.geolocation) {
+          alert("Geolokasi tidak didukung oleh browser Anda.");
+          return;
+        }
+        btnGps.textContent = "Mencari GPS...";
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const lon = pos.coords.longitude;
+            const lat = pos.coords.latitude;
+            const tzOffset = -new Date().getTimezoneOffset() / 60;
+            appState.location = {
+              name: `Koordinat GPS (${lat.toFixed(2)}°, ${lon.toFixed(2)}°)`,
+              lat,
+              lon,
+              tz: tzOffset
+            };
+            btnGps.textContent = "GPS Aktif";
+            updateClocksUI();
+          },
+          () => {
+            btnGps.textContent = "Gunakan GPS";
+            alert("Gagal mengakses lokasi GPS. Pastikan izin lokasi diaktifkan.");
+          }
+        );
+      });
 
-        serverSelect.addEventListener('change', updateLivePreview);
-        prefixInput.addEventListener('input', updateLivePreview);
-        slugInput.addEventListener('input', updateLivePreview);
+      // Eksekusi awal dan interval per detik
+      updateClocksUI();
+      updateCalendarsUI();
+      setInterval(updateClocksUI, 1000);
+    }
 
-        document.getElementById('random-slug-btn').addEventListener('click', () => {
-            slugInput.value = 'link' + generateRandomCode(4);
-            updateLivePreview();
-        });
-
-        document.getElementById('fill-example-btn').addEventListener('click', () => {
-            longUrlInput.value = 'https://github.com/explore';
-            slugInput.value = 'git' + generateRandomCode(3);
-            updateLivePreview();
-        });
-
-        document.getElementById('copy-primary-btn').addEventListener('click', (e) => {
-            copyToClipboard(shortLinkOutput.textContent, e.currentTarget);
-        });
-
-        document.getElementById('qr-primary-btn').addEventListener('click', () => {
-            openQrModal(shortLinkOutput.textContent);
-        });
-
-        document.getElementById('close-qr-btn').addEventListener('click', closeQrModal);
-        document.getElementById('close-qr-bottom-btn').addEventListener('click', closeQrModal);
-
-        document.getElementById('clear-history-btn').addEventListener('click', () => {
-            localStorage.removeItem(STORAGE_KEY);
-            renderHistory();
-            resultCard.classList.add('hidden');
-        });
-
-        document.getElementById('history-list').addEventListener('click', (e) => {
-            const copyBtn = e.target.closest('.copy-item-btn');
-            if (copyBtn) {
-                copyToClipboard(copyBtn.getAttribute('data-copy'), copyBtn);
-                return;
-            }
-            const qrBtn = e.target.closest('.qr-item-btn');
-            if (qrBtn) {
-                openQrModal(qrBtn.getAttribute('data-qr'));
-                return;
-            }
-            const delBtn = e.target.closest('.del-item-btn');
-            if (delBtn) {
-                const id = Number(delBtn.getAttribute('data-del'));
-                const filtered = getStoredHistory().filter(item => item.id !== id);
-                saveHistory(filtered);
-                renderHistory();
-            }
-        });
-    </script>
+    document.addEventListener("DOMContentLoaded", initApp);
+  </script>
 </body>
 </html>
