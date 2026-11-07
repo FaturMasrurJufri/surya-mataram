@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Surya Mataram - Jam matahari dan Kalender Tiga Peradaban</title>
+  <title>Surya Mataram — Jam Matahari & Kalender Tiga Peradaban</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -49,7 +49,7 @@
       gap: 24px;
     }
 
-    /* HEADER & BADGE DEVELOPER */
+    /* HEADER, BADGE DEVELOPER & MENU BACA SAYA */
     .top-bar {
       display: flex;
       flex-wrap: wrap;
@@ -66,12 +66,12 @@
 
     .brand-title h1 {
       font-family: 'Cinzel', serif;
-      font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+      font-size: clamp(1.35rem, 2.6vw, 1.85rem);
       font-weight: 800;
       background: linear-gradient(90deg, var(--gold-light), var(--gold-primary), #fff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
     }
 
     .brand-title p {
@@ -79,16 +79,23 @@
       color: var(--text-muted);
     }
 
+    .header-right-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
     .dev-badge {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      padding: 8px 18px;
-      background: rgba(10, 12, 18, 0.9);
+      padding: 7px 16px;
+      background: rgba(10, 12, 18, 0.92);
       border: 1px solid var(--gold-primary);
       border-radius: 999px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       font-weight: 600;
       color: var(--gold-light);
       box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
@@ -115,6 +122,34 @@
         transform: scale(0.75);
         box-shadow: 0 0 2px #10b981;
       }
+    }
+
+    .btn-read-me {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      width: 100%;
+      padding: 6px 14px;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.18), rgba(212, 175, 55, 0.05));
+      border: 1px solid var(--border-gold);
+      border-radius: 999px;
+      color: var(--gold-light);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-read-me:hover {
+      background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+      color: #08090c;
+      border-color: var(--gold-light);
+      box-shadow: 0 0 14px rgba(212, 175, 55, 0.4);
+      transform: translateY(-1px);
     }
 
     /* DUAL CLOCKS SECTION */
@@ -179,11 +214,6 @@
       color: #ffffff;
       letter-spacing: 2px;
       text-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
-    }
-
-    .digital-time .ms-part {
-      font-size: 1.1rem;
-      color: var(--gold-primary);
     }
 
     .clock-meta {
@@ -456,20 +486,216 @@
       border-radius: 999px;
       transition: width 0.4s ease;
     }
+
+    /* MODAL BACA SAYA (README & MIT LICENSE) */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 5, 8, 0.82);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 9999;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-window {
+      width: 100%;
+      max-width: 820px;
+      max-height: 86vh;
+      background: #0e1118;
+      border: 1px solid var(--gold-primary);
+      border-radius: 20px;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9), 0 0 30px rgba(212, 175, 55, 0.18);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: translateY(16px);
+      transition: transform 0.25s ease;
+    }
+
+    .modal-overlay.active .modal-window {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 24px;
+      background: rgba(20, 24, 34, 0.95);
+      border-bottom: 1px solid var(--border-gold);
+    }
+
+    .modal-header h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.2rem;
+      color: var(--gold-light);
+      letter-spacing: 1px;
+    }
+
+    .btn-close-modal {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-main);
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .btn-close-modal:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+      color: #fca5a5;
+    }
+
+    .modal-tabs {
+      display: flex;
+      gap: 10px;
+      padding: 12px 24px;
+      background: rgba(10, 12, 18, 0.9);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .tab-buttons-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+      color: #08090c;
+      border-color: var(--gold-light);
+      font-weight: 700;
+    }
+
+    .btn-copy-doc {
+      padding: 7px 14px;
+      border-radius: 8px;
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #6ee7b7;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-copy-doc:hover {
+      background: rgba(16, 185, 129, 0.28);
+    }
+
+    .modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      line-height: 1.7;
+      font-size: 0.92rem;
+      color: var(--text-main);
+    }
+
+    .doc-section {
+      display: none;
+    }
+
+    .doc-section.active {
+      display: block;
+    }
+
+    .doc-section h4 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-light);
+      font-size: 1.15rem;
+      margin: 18px 0 8px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      padding-bottom: 4px;
+    }
+
+    .doc-section h4:first-child {
+      margin-top: 0;
+    }
+
+    .doc-section ul, .doc-section ol {
+      padding-left: 22px;
+      margin-bottom: 14px;
+    }
+
+    .doc-section li {
+      margin-bottom: 6px;
+    }
+
+    .code-pre {
+      background: #07080c;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 10px;
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.83rem;
+      color: #e5e7eb;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin: 10px 0 16px;
+    }
+
+    @media (max-width: 600px) {
+      .header-right-col {
+        width: 100%;
+        align-items: stretch;
+      }
+      .dev-badge {
+        justify-content: center;
+      }
+    }
   </style>
 </head>
 <body>
 
   <div class="app-container">
-    <!-- HEADER & BADGE DEVELOPER -->
+    <!-- HEADER, BADGE IDENTITAS & MENU BACA SAYA DI BAWAHNYA -->
     <header class="top-bar">
       <div class="brand-title">
         <h1>SURYA MATARAM</h1>
-        <p>Astronomi Jam Matahari,Kalender Gregorian,Hijriyah & Sultan Agungan</p>
+        <p>Astronomi Jam Matahari, Kalender Gregorian, Hijriyah & Sultan Agungan</p>
       </div>
-      <div class="dev-badge" title="Verified Senior Developer">
-        <span class="blinking-dot"></span>
-        <span>developer: fatur62</span>
+      <div class="header-right-col">
+        <div class="dev-badge" title="Verified Senior Developer">
+          <span class="blinking-dot"></span>
+          <span>developer: fatur62</span>
+        </div>
+        <button type="button" id="btn-open-readme" class="btn-read-me" aria-haspopup="dialog">
+          <span>📖 Baca Saya (README & Lisensi)</span>
+        </button>
       </div>
     </header>
 
@@ -496,7 +722,7 @@
         </div>
         <div class="digital-time" id="standard-clock-display">00:00:00</div>
         <div class="clock-meta">
-          <span id="location-label">Lokasi: Yogyakarta / Depok</span>
+          <span id="location-label">Titik: Yogyakarta (Keraton)</span>
           <span id="solar-diff-info">Selisih Surya: +0 mnt</span>
         </div>
       </article>
@@ -539,8 +765,8 @@
             <span class="detail-value" id="greg-doy">-- / 365</span>
           </div>
           <div class="detail-item">
-            <span class="detail-label">Minggu ISO</span>
-            <span class="detail-value" id="greg-week">Minggu ke--</span>
+            <span class="detail-label">Minggu ISO (ISO 8601)</span>
+            <span class="detail-value" id="greg-week">Pekan ke--</span>
           </div>
           <div class="detail-item">
             <span class="detail-label">Julian Day Number (JDN)</span>
@@ -651,14 +877,67 @@
     </section>
   </div>
 
+  <!-- MODAL DIALOG: BACA SAYA (README.MD & LISENSI MIT) -->
+  <div class="modal-overlay" id="readme-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 id="modal-title">DOKUMENTASI SURYA MATARAM</h3>
+        <button type="button" class="btn-close-modal" id="btn-close-modal" title="Tutup">✕</button>
+      </div>
+      <div class="modal-tabs">
+        <div class="tab-buttons-group">
+          <button type="button" class="tab-btn active" data-target="tab-readme">1. README & Cara Penggunaan</button>
+          <button type="button" class="tab-btn" data-target="tab-license">2. Teks Lengkap Lisensi MIT</button>
+        </div>
+        <button type="button" class="btn-copy-doc" id="btn-copy-active-doc">Salin Teks</button>
+      </div>
+      <div class="modal-body">
+        <!-- TAB 1: README LENGKAP -->
+        <div class="doc-section active" id="tab-readme">
+          <h4>Tentang Surya Mataram</h4>
+          <p><strong>Surya Mataram</strong> adalah aplikasi web <em>single-page</em> yang memadukan perhitungan astronomi <strong>Jam Matahari Hakiki (True Solar Time)</strong> dengan tiga sistem penanggalan peradaban (<strong>Gregorian</strong>, <strong>Hijriyah</strong>, dan <strong>Kalender Jawa Sultan Agungan</strong>) serta kalender ekologi-agraris <strong>Pranata Mangsa</strong>.</p>
+
+          <h4>Fitur Utama</h4>
+          <ul>
+            <li><strong>Waktu Jam Matahari (Apparent Solar Time):</strong> Menghitung waktu surya sejati secara <em>real-time</em> menggunakan rumus astronomis <em>Equation of Time</em> (Spencer) dan koreksi bujur lokal terhadap meridian standar.</li>
+            <li><strong>Waktu Jam Standar Umum (Civil Time):</strong> Menampilkan waktu standar zona lokal (WIB/UTC) beserta selisih menit terhadap posisi matahari.</li>
+            <li><strong>Tiga Sistem Kalender Terpadu:</strong> Konversi presisi untuk Kalender Internasional (Gregorian + JDN + ISO 8601), Kalender Kamariyah (Hijriyah Umm al-Qura + Fase Bulan), dan Kalender Nusantara Sultan Agungan (Dina, Pasaran/Pancawara, Neptu, Wuku, Tahun Jawa, dan Windu).</li>
+            <li><strong>Kalender Ekologi Pranata Mangsa:</strong> Menampilkan mangsa berjalan (Kasa s/d Saddha), Candraning Mangsa, karakteristik ekologi, panduan bercocok tanam, serta persentase perjalanan musim.</li>
+          </ul>
+
+          <h4>Cara Penggunaan Aplikasi</h4>
+          <ol>
+            <li><strong>Memilih Lokasi Meridian Jam Matahari:</strong> Gunakan menu <em>dropdown</em> <strong>"Titik Meridian Jam Matahari"</strong> untuk memilih kota (Yogyakarta, Solo, Jakarta, Surabaya, Makkah) atau klik tombol <strong>"Gunakan GPS"</strong> agar jam matahari dikalkulasi tepat sesuai koordinat lintang dan bujur posisi Anda saat ini.</li>
+            <li><strong>Simulasi Lintas Tanggal (Cek Weton & Mangsa):</strong> Klik kolom <strong>"Simulasi Tanggal"</strong> untuk memilih tanggal lahir, hari bersejarah, atau tanggal masa depan. Ketiga kalender dan Pranata Mangsa akan otomatis menghitung konversinya secara instan.</li>
+            <li><strong>Kembali ke Waktu Sekarang:</strong> Klik tombol <strong>"Hari Ini (Live)"</strong> untuk mengembalikan kalender ke tanggal hari ini secara langsung.</li>
+            <li><strong>Instalasi di Komputer / Server Lokal (GitHub):</strong></li>
+          </ol>
+          <pre class="code-pre" id="raw-readme-code">git clone https://github.com/fatur62/surya-mataram.git
+cd surya-mataram
+# Buka file index.html langsung di browser modern (Chrome/Edge/Firefox/Safari)</pre>
+        </div>
+
+        <!-- TAB 2: LISENSI MIT LENGKAP -->
+        <div class="doc-section" id="tab-license">
+          <h4>MIT License (Teks Lengkap Resmi)</h4>
+          <pre class="code-pre" id="raw-license-text"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     "use strict";
 
     /**
-     * DATASET JSON KALENDER NUSANTARA & PRANATA MANGSA
+     * DATASET JSON KALENDER NUSANTARA, PRANATA MANGSA & DOKUMEN REPOSITORI
      * Dibungkus dan divalidasi secara ketat menggunakan JSON.parse dengan try-catch
      */
     const RAW_NUSANTARA_JSON = `{
+      "docs": {
+        "readmeMarkdown": "# Surya Mataram\\n\\nSurya Mataram adalah aplikasi web single-page yang memadukan perhitungan astronomi Jam Matahari Hakiki (True Solar Time) dengan tiga sistem penanggalan peradaban (Gregorian, Hijriyah, dan Kalender Jawa Sultan Agungan) serta kalender ekologi-agraris Pranata Mangsa.\\n\\n## Cara Penggunaan\\n1. Pilih Titik Meridian kota atau klik Gunakan GPS untuk akurasi Jam Matahari lokal.\\n2. Gunakan fitur Simulasi Tanggal untuk mengecek konversi Weton, Neptu, Wuku, Hijriyah, dan Pranata Mangsa pada tanggal apa pun.\\n3. Klik Hari Ini (Live) untuk kembali ke penanggalan waktu nyata.\\n\\n## Instalasi Git\\ngit clone https://github.com/fatur62/surya-mataram.git\\ncd surya-mataram\\nBuka index.html di browser.",
+        "mitLicense": "MIT License\\n\\nCopyright (c) 2026 fatur62\\n\\nPermission is hereby granted, free of charge, to any person obtaining a copy\\nof this software and associated documentation files (the \\"Software\\"), to deal\\nin the Software without restriction, including without limitation the rights\\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\\ncopies of the Software, and to permit persons to whom the Software is\\nfurnished to do so, subject to the following conditions:\\n\\nThe above copyright notice and this permission notice shall be included in all\\ncopies or substantial portions of the Software.\\n\\nTHE SOFTWARE IS PROVIDED \\"AS IS\\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\\nSOFTWARE."
+      },
       "saptawara": [
         { "id": "Minggu", "jawa": "Akad", "arab": "Al-Ahad", "neptu": 5 },
         { "id": "Senin", "jawa": "Senen", "arab": "Al-Ithnayn", "neptu": 4 },
@@ -835,11 +1114,12 @@
         lon: 110.3647,
         tz: 7
       },
-      customDate: null // null = Live Real-time
+      customDate: null,
+      activeDocTab: "tab-readme"
     };
 
     /**
-     * KALKULASI JULIAN DAY NUMBER (JDN) PRESISI (UT/LOKAL TENGAH HARI)
+     * KALKULASI JULIAN DAY NUMBER (JDN) PRESISI
      */
     function getJulianDayNumber(year, month, day) {
       const a = Math.floor((14 - month) / 12);
@@ -871,7 +1151,6 @@
       const hours = now.getHours() + now.getMinutes() / 60 + now.getSeconds() / 3600;
       const gamma = ((2 * Math.PI) / 365.25) * (dayOfYear - 1 + (hours - 12) / 24);
 
-      // Rumus Astronomis Spencer (dalam menit)
       const eotMinutes =
         229.18 *
         (0.000075 +
@@ -884,7 +1163,6 @@
       const longitudeCorrectionMinutes = 4 * (lon - standardMeridian);
       const totalOffsetSeconds = (longitudeCorrectionMinutes + eotMinutes) * 60;
 
-      // Hitung waktu lokal berdasarkan zona waktu kota yang dipilih
       const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
       const cityStandardDate = new Date(utcMs + tzOffsetHours * 3600000);
       const solarDate = new Date(cityStandardDate.getTime() + totalOffsetSeconds * 1000);
@@ -899,36 +1177,27 @@
     }
 
     /**
-     * KALKULASI KALENDER NUSANTARA (SULTAN AGUNGAN - KURUP ASAPON / ABOGE)
-     * Anchor terverifikasi: 7 November 2026 = Sabtu Pahing, 26 Jumadilawal 1960 AJ, Wuku Wukir
+     * KALKULASI KALENDER NUSANTARA (SULTAN AGUNGAN - KURUP ASAPON)
      */
     function calculateSultanAgungan(year, month, day) {
       const jdn = getJulianDayNumber(year, month, day);
 
-      // 1. Saptawara & Pancawara (Weton)
-      // Anchor JDN 2461352 (7 Nov 2026) -> Sabtu (index 6), Pahing (index 1)
       const saptaIdx = ((jdn - 2461352) % 7 + 7 + 6) % 7;
       const pancaIdx = ((jdn - 2461352) % 5 + 5 + 1) % 5;
 
       const dina = DB.saptawara?.[saptaIdx] || { id: "-", jawa: "-", neptu: 0 };
       const pasaran = DB.pancawara?.[pancaIdx] || { nama: "-", krama: "-", neptu: 0, arah: "-" };
 
-      // 2. Wuku (Siklus 210 Hari = 30 Wuku x 7 Hari, berganti setiap hari Minggu/Akad)
-      // Pada 7 Nov 2026 (JDN 2461352), Wuku = Wukir (index 2, hari ke-7 dari Wuku Wukir)
-      // Awal Wuku Sinta terdekat sebelum anchor: JDN 2461332 (18 Okt 2026 = Minggu Pon)
       const daysSinceSinta = ((jdn - 2461332) % 210 + 210) % 210;
       const wukuIdx = Math.floor(daysSinceSinta / 7);
       const wukuName = DB.wuku?.[wukuIdx] || "-";
 
-      // 3. Tanggal, Wulan, Tahun Jawa (AJ), dan Windu
-      // Gunakan Intl islamic-civil / tabular dengan koreksi epoch Sultan Agungan (+512 tahun dari Hijriyah)
       let jDay = 1;
       let jMonthIdx = 0;
       let jYearAJ = 1960;
 
-      // Anchor siklus Kurup Asapon: 1 Sura 1955 AJ (Tahun Alip) = 10 Agustus 2021 (JDN 2459437)
       const epochAlip1955JDN = 2459437;
-      const winduLengths = [354, 355, 354, 354, 355, 354, 354, 355]; // Total 1 Windu = 2835 hari
+      const winduLengths = [354, 355, 354, 354, 355, 354, 354, 355];
       const diffFromEpoch = jdn - epochAlip1955JDN;
 
       const winduCycleCount = Math.floor(diffFromEpoch / 2835);
@@ -946,7 +1215,6 @@
       jYearAJ = 1955 + winduCycleCount * 8 + yearInWinduIdx;
       const isKabisaJawa = winduLengths[yearInWinduIdx] === 355;
 
-      // Panjang bulan Jawa bergantian 30 dan 29 hari; bulan ke-12 (Besar) 30 hari pada tahun Kabisat (Ehe, Dal, Jimakir)
       const monthLengths = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, isKabisaJawa ? 30 : 29];
       for (let m = 0; m < 12; m++) {
         if (remDays < monthLengths[m]) {
@@ -958,7 +1226,7 @@
       }
 
       const tahunObj = DB.tahunWindu?.[yearInWinduIdx] || { nama: "Alip" };
-      const winduNameIdx = ((winduCycleCount + 3) % 4 + 4) % 4; // 1955-1962 AJ adalah Windu Sancaya/Adi
+      const winduNameIdx = ((winduCycleCount + 3) % 4 + 4) % 4;
       const winduName = DB.namaWindu?.[winduNameIdx] || "Sancaya";
 
       return {
@@ -975,7 +1243,7 @@
     }
 
     /**
-     * KALKULASI KALENDER HIJRIYAH (UMM AL-QURA / FALLBACK TABULAR)
+     * KALKULASI KALENDER HIJRIYAH
      */
     function calculateHijri(dateObj, jdn) {
       try {
@@ -996,7 +1264,6 @@
           year
         };
       } catch (e) {
-        // Fallback ke algoritma Kuwaiti/Tabular jika browser tidak mendukung umalqura
         let l = jdn - 1948440 + 10632;
         const n = Math.floor((l - 1) / 10631);
         l = l - 10631 * n + 354;
@@ -1022,7 +1289,7 @@
     }
 
     function getMoonPhaseLabel(hijriDay) {
-      if (hijriDay <= 2) return "Hilal Awal Bulan ( sabit muda )";
+      if (hijriDay <= 2) return "Hilal Awal Bulan (Sabit Muda)";
       if (hijriDay <= 6) return "Sabit Awal (Waxing Crescent)";
       if (hijriDay <= 9) return "Paruh Awal (First Quarter)";
       if (hijriDay <= 12) return "Cembung Awal (Waxing Gibbous)";
@@ -1039,13 +1306,11 @@
     function calculatePranataMangsa(year, month, day) {
       const mangsaList = Array.isArray(DB.pranataMangsa) ? DB.pranataMangsa : [];
       const currentDate = new Date(year, month - 1, day);
-      const isLeap = isLeapYearGregorian(year);
 
       for (const m of mangsaList) {
         let startYear = year;
         let endYear = year;
 
-        // Penanganan khusus Mangsa VII (22 Des - 2 Feb) yang melintasi pergantian tahun Masehi
         if (m.startMonth === 12 && m.endMonth === 2) {
           if (month === 12 && day >= 22) {
             endYear = year + 1;
@@ -1093,19 +1358,16 @@
 
       const pad = n => String(n).padStart(2, "0");
 
-      // Format Jam Matahari
       const sH = pad(solarData.solarDate.getHours());
       const sM = pad(solarData.solarDate.getMinutes());
       const sS = pad(solarData.solarDate.getSeconds());
       document.getElementById("solar-clock-display").textContent = `${sH}:${sM}:${sS}`;
 
-      // Format Jam Standar
       const cH = pad(solarData.cityStandardDate.getHours());
       const cM = pad(solarData.cityStandardDate.getMinutes());
       const cS = pad(solarData.cityStandardDate.getSeconds());
       document.getElementById("standard-clock-display").textContent = `${cH}:${cM}:${cS}`;
 
-      // Meta Info
       const eotSign = solarData.eotMinutes >= 0 ? "+" : "";
       document.getElementById("eot-info").textContent = `Koreksi EoT: ${eotSign}${solarData.eotMinutes.toFixed(2)} mnt`;
       document.getElementById("longitude-info").textContent = `Bujur: ${lon.toFixed(2)}° ${lon >= 0 ? "BT" : "BB"}`;
@@ -1130,7 +1392,6 @@
       const hijriData = calculateHijri(targetDate, jdn);
       const mangsaData = calculatePranataMangsa(year, month, day);
 
-      // 1. Update Kalender Gregorian
       const namaBulanMasehi = [
         "Januari", "Februari", "Maret", "April", "Mei", "Juni",
         "Juli", "Agustus", "September", "Oktober", "November", "Desember"
@@ -1150,14 +1411,12 @@
         ? "Tahun Kabisat (366 Hari)"
         : "Tahun Basitah (365 Hari)";
 
-      // 2. Update Kalender Hijriyah
       document.getElementById("hijri-day").textContent = hijriData.day;
       document.getElementById("hijri-month-year").textContent = `${hijriData.monthName} ${hijriData.year} H`;
       document.getElementById("hijri-weekday").textContent = `Yaum ${jawaData.dina.arab}`;
       document.getElementById("hijri-month-num").textContent = `Bulan ke-${hijriData.monthNum} (Kamariyah)`;
       document.getElementById("hijri-moon-phase").textContent = getMoonPhaseLabel(hijriData.day);
 
-      // 3. Update Kalender Nusantara (Sultan Agungan)
       document.getElementById("java-day").textContent = jawaData.day;
       document.getElementById("java-month-year").textContent = `${jawaData.monthName} ${jawaData.yearAJ} AJ`;
       document.getElementById("java-weton").textContent = `${jawaData.dina.jawa} ${jawaData.pasaran.nama}`;
@@ -1166,7 +1425,6 @@
       document.getElementById("java-year-name").textContent = `Tahun ${jawaData.tahunJawa} • Windu ${jawaData.winduName}`;
       document.getElementById("java-wuku").textContent = `Wuku ${jawaData.wukuName}`;
 
-      // 4. Update Pranata Mangsa
       if (mangsaData) {
         const fmtShort = new Intl.DateTimeFormat("id-ID", { day: "numeric", month: "long" });
         document.getElementById("mangsa-name").textContent = `MANGSA ${mangsaData.no} — ${mangsaData.nama.toUpperCase()}`;
@@ -1182,7 +1440,75 @@
     }
 
     /**
-     * EVENT LISTENERS & INISIALISASI DOM
+     * INISIALISASI MODAL "BACA SAYA" (README & MIT LICENSE)
+     */
+    function initModalDocs() {
+      const modalOverlay = document.getElementById("readme-modal");
+      const btnOpen = document.getElementById("btn-open-readme");
+      const btnClose = document.getElementById("btn-close-modal");
+      const tabButtons = document.querySelectorAll(".tab-btn");
+      const docSections = document.querySelectorAll(".doc-section");
+      const btnCopy = document.getElementById("btn-copy-active-doc");
+      const licensePre = document.getElementById("raw-license-text");
+
+      if (licensePre && DB.docs?.mitLicense) {
+        licensePre.textContent = DB.docs.mitLicense;
+      }
+
+      btnOpen.addEventListener("click", () => {
+        modalOverlay.classList.add("active");
+      });
+
+      btnClose.addEventListener("click", () => {
+        modalOverlay.classList.remove("active");
+      });
+
+      modalOverlay.addEventListener("click", (e) => {
+        if (e.target === modalOverlay) {
+          modalOverlay.classList.remove("active");
+        }
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modalOverlay.classList.contains("active")) {
+          modalOverlay.classList.remove("active");
+        }
+      });
+
+      tabButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const targetId = btn.getAttribute("data-target");
+          appState.activeDocTab = targetId;
+
+          tabButtons.forEach(b => b.classList.remove("active"));
+          docSections.forEach(s => s.classList.remove("active"));
+
+          btn.classList.add("active");
+          const targetEl = document.getElementById(targetId);
+          if (targetEl) targetEl.classList.add("active");
+        });
+      });
+
+      btnCopy.addEventListener("click", async () => {
+        const textToCopy = appState.activeDocTab === "tab-license"
+          ? (DB.docs?.mitLicense || "")
+          : (DB.docs?.readmeMarkdown || "");
+
+        try {
+          await navigator.clipboard.writeText(textToCopy);
+          const originalText = btnCopy.textContent;
+          btnCopy.textContent = "✓ Berhasil Disalin!";
+          setTimeout(() => {
+            btnCopy.textContent = originalText;
+          }, 1800);
+        } catch (err) {
+          console.error("Gagal menyalin teks:", err);
+        }
+      });
+    }
+
+    /**
+     * EVENT LISTENERS & INISIALISASI UTAMA
      */
     function initApp() {
       const dateInput = document.getElementById("date-picker");
@@ -1190,7 +1516,6 @@
       const btnReset = document.getElementById("btn-reset-today");
       const btnGps = document.getElementById("btn-gps");
 
-      // Set nilai awal input tanggal ke hari ini
       const today = new Date();
       const yyyy = today.getFullYear();
       const mm = String(today.getMonth() + 1).padStart(2, "0");
@@ -1247,7 +1572,7 @@
         );
       });
 
-      // Eksekusi awal dan interval per detik
+      initModalDocs();
       updateClocksUI();
       updateCalendarsUI();
       setInterval(updateClocksUI, 1000);
