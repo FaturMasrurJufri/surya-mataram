@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surya Mataram — Jam Matahari & Kalender Tiga Peradaban</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-obsidian: #08090c;
+      --bg-surface: rgba(20, 23, 31, 0.78);
+      --gold-primary: #d4af37;
+      --gold-light: #f9e29c;
+      --gold-dark: #997415;
+      --emerald-accent: #10b981;
+      --cyan-accent: #06b6d4;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --border-gold: rgba(212, 175, 55, 0.28);
+      --shadow-luxury: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 25px rgba(212, 175, 55, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-obsidian);
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(212, 175, 55, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.08) 0%, transparent 45%),
+        linear-gradient(180deg, #060709 0%, #0d1017 100%);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      padding: 24px 16px 48px;
+      line-height: 1.6;
+    }
+
+    .app-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* HEADER, BADGE DEVELOPER & MENU BACA SAYA */
+    .top-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 26px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-gold);
+      border-radius: 18px;
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow-luxury);
+    }
+
+    .brand-title h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.35rem, 2.6vw, 1.85rem);
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--gold-light), var(--gold-primary), #fff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 1.5px;
+    }
+
+    .brand-title p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .header-right-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .dev-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 16px;
+      background: rgba(10, 12, 18, 0.92);
+      border: 1px solid var(--gold-primary);
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--gold-light);
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+      letter-spacing: 0.5px;
+    }
+
+    .blinking-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #10b981;
+      box-shadow: 0 0 8px #10b981, 0 0 16px #10b981;
+      animation: pulse-blink 1.1s infinite ease-in-out;
+    }
+
+    @keyframes pulse-blink {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 10px #10b981, 0 0 20px #34d399;
+      }
+      50% {
+        opacity: 0.2;
+        transform: scale(0.75);
+        box-shadow: 0 0 2px #10b981;
+      }
+    }
+
+    .btn-read-me {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      width: 100%;
+      padding: 6px 14px;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.18), rgba(212, 175, 55, 0.05));
+      border: 1px solid var(--border-gold);
+      border-radius: 999px;
+      color: var(--gold-light);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-read-me:hover {
+      background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+      color: #08090c;
+      border-color: var(--gold-light);
+      box-shadow: 0 0 14px rgba(212, 175, 55, 0.4);
+      transform: translateY(-1px);
+    }
+
+    /* DUAL CLOCKS SECTION (DIGITAL & ANALOG) */
+    .clocks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 22px;
+    }
+
+    .clock-card {
+      position: relative;
+      overflow: hidden;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-gold);
+      border-radius: 20px;
+      padding: 24px 28px;
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow-luxury);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .clock-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+    }
+
+    .clock-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .clock-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--gold-primary);
+      font-weight: 700;
+    }
+
+    .clock-tag {
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      border-radius: 6px;
+      background: rgba(212, 175, 55, 0.14);
+      color: var(--gold-light);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .clock-body-container {
+      min-height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 0;
+    }
+
+    .digital-time {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(2.2rem, 4.4vw, 3.2rem);
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 2px;
+      text-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
+      text-align: center;
+      width: 100%;
+    }
+
+    /* LUXURY REALISTIC ANALOG CLOCK */
+    .analog-wrapper {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .analog-clock-svg {
+      width: 220px;
+      height: 220px;
+      filter: drop-shadow(0 14px 25px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 15px rgba(212, 175, 55, 0.14));
+    }
+
+    .analog-sub-digital {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      color: var(--gold-light);
+      background: rgba(8, 9, 12, 0.75);
+      padding: 3px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      letter-spacing: 1.5px;
+    }
+
+    /* Mode Tampilan Jam */
+    body.clock-mode-analog .digital-time {
+      display: none;
+    }
+
+    body.clock-mode-analog .analog-wrapper {
+      display: flex;
+    }
+
+    .clock-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 12px;
+    }
+
+    /* CONTROLS BAR & MODE SWITCHER */
+    .control-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 22px;
+      background: rgba(15, 18, 25, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .control-group label {
+      font-size: 0.84rem;
+      color: var(--gold-light);
+      font-weight: 600;
+    }
+
+    .input-luxury {
+      background: #0b0d13;
+      color: var(--text-main);
+      border: 1px solid var(--border-gold);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.84rem;
+      outline: none;
+    }
+
+    .input-luxury:focus {
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
+    }
+
+    .btn-luxury {
+      background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+      color: #08090c;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.83rem;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn-luxury:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);
+    }
+
+    /* Segmented Toggle untuk Mode Jam */
+    .mode-switch-group {
+      display: inline-flex;
+      background: #090b10;
+      padding: 3px;
+      border-radius: 10px;
+      border: 1px solid var(--border-gold);
+    }
+
+    .mode-btn {
+      background: transparent;
+      color: var(--text-muted);
+      border: none;
+      padding: 6px 13px;
+      border-radius: 7px;
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .mode-btn.active {
+      background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+      color: #08090c;
+      box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+    }
+
+    /* THREE CALENDARS GRID */
+    .calendars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+      gap: 22px;
+    }
+
+    .cal-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-gold);
+      border-radius: 20px;
+      padding: 26px;
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow-luxury);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+      position: relative;
+    }
+
+    .cal-badge {
+      display: inline-block;
+      align-self: flex-start;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold-light);
+      border: 1px solid var(--border-gold);
+    }
+
+    .cal-main-date {
+      text-align: center;
+      padding: 16px 10px;
+      background: rgba(8, 9, 12, 0.55);
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .cal-day-number {
+      font-family: 'Cinzel', serif;
+      font-size: 3.4rem;
+      font-weight: 800;
+      line-height: 1.1;
+      background: linear-gradient(180deg, #ffffff, var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .cal-month-year {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--gold-primary);
+      margin-top: 4px;
+    }
+
+    .cal-sub-day {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .cal-details-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 0.88rem;
+    }
+
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 8px;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+    }
+
+    .detail-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .detail-label {
+      color: var(--text-muted);
+    }
+
+    .detail-value {
+      font-weight: 600;
+      color: var(--text-main);
+      text-align: right;
+    }
+
+    .detail-value.highlight {
+      color: var(--gold-light);
+    }
+
+    /* PRANATA MANGSA SECTION */
+    .mangsa-card {
+      background: linear-gradient(135deg, rgba(20, 24, 34, 0.92), rgba(12, 16, 22, 0.95));
+      border: 1px solid var(--gold-primary);
+      border-radius: 22px;
+      padding: 30px;
+      box-shadow: var(--shadow-luxury);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .mangsa-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+      padding-bottom: 16px;
+    }
+
+    .mangsa-title-block h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.6rem;
+      color: var(--gold-light);
+    }
+
+    .mangsa-title-block p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .mangsa-period-pill {
+      padding: 6px 16px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #6ee7b7;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .mangsa-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .mangsa-box {
+      background: rgba(8, 9, 12, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .mangsa-box span {
+      display: block;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gold-primary);
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .mangsa-box p {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .progress-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold-primary), var(--emerald-accent));
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    /* MODAL BACA SAYA (README & MIT LICENSE) */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 5, 8, 0.84);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 9999;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-window {
+      width: 100%;
+      max-width: 850px;
+      max-height: 88vh;
+      background: #0e1118;
+      border: 1px solid var(--gold-primary);
+      border-radius: 20px;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9), 0 0 30px rgba(212, 175, 55, 0.18);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: translateY(16px);
+      transition: transform 0.25s ease;
+    }
+
+    .modal-overlay.active .modal-window {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 24px;
+      background: rgba(20, 24, 34, 0.95);
+      border-bottom: 1px solid var(--border-gold);
+    }
+
+    .modal-header h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.2rem;
+      color: var(--gold-light);
+      letter-spacing: 1px;
+    }
+
+    .btn-close-modal {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-main);
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .btn-close-modal:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+      color: #fca5a5;
+    }
+
+    .modal-tabs {
+      display: flex;
+      gap: 10px;
+      padding: 12px 24px;
+      background: rgba(10, 12, 18, 0.9);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .tab-buttons-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+      color: #08090c;
+      border-color: var(--gold-light);
+      font-weight: 700;
+    }
+
+    .btn-copy-doc {
+      padding: 7px 14px;
+      border-radius: 8px;
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #6ee7b7;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-copy-doc:hover {
+      background: rgba(16, 185, 129, 0.28);
+    }
+
+    .modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      line-height: 1.7;
+      font-size: 0.92rem;
+      color: var(--text-main);
+    }
+
+    .doc-section {
+      display: none;
+    }
+
+    .doc-section.active {
+      display: block;
+    }
+
+    .doc-section h4 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-light);
+      font-size: 1.12rem;
+      margin: 20px 0 8px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      padding-bottom: 4px;
+    }
+
+    .doc-section h4:first-child {
+      margin-top: 0;
+    }
+
+    .doc-section ul, .doc-section ol {
+      padding-left: 22px;
+      margin-bottom: 14px;
+    }
+
+    .doc-section li {
+      margin-bottom: 6px;
+    }
+
+    .code-pre {
+      background: #07080c;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 10px;
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.83rem;
+      color: #e5e7eb;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin: 10px 0 16px;
+    }
+
+    @media (max-width: 640px) {
+      .header-right-col {
+        width: 100%;
+        align-items: stretch;
+      }
+      .dev-badge {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- HEADER, BADGE IDENTITAS & MENU BACA SAYA DI BAWAHNYA -->
+    <header class="top-bar">
+      <div class="brand-title">
+        <h1>SURYA MATARAM</h1>
+        <p>Astronomi Jam Matahari, Kalender Gregorian, Hijriyah & Sultan Agungan</p>
+      </div>
+      <div class="header-right-col">
+        <div class="dev-badge" title="Verified Senior Developer">
+          <span class="blinking-dot"></span>
+          <span>developer: fatur62</span>
+        </div>
+        <button type="button" id="btn-open-readme" class="btn-read-me" aria-haspopup="dialog">
+          <span>📖 Baca Saya</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- BARIS PALING ATAS: 2 JAM PENUNJUK WAKTU (DIGITAL & ANALOG) -->
+    <section class="clocks-grid" aria-label="Penunjuk Waktu">
+      <!-- Jam 1: Waktu Jam Matahari Sejati (Solar Time) -->
+      <article class="clock-card">
+        <div class="clock-header">
+          <span class="clock-label">Waktu Jam Matahari Sejati</span>
+          <span class="clock-tag" id="solar-status-tag">True Solar Time</span>
+        </div>
+
+        <div class="clock-body-container">
+          <!-- Tampilan Digital -->
+          <div class="digital-time" id="solar-clock-display">00:00:00</div>
+
+          <!-- Tampilan Analog Realistik -->
+          <div class="analog-wrapper">
+            <svg class="analog-clock-svg" viewBox="0 0 200 200" aria-label="Jam Analog Matahari">
+              <defs>
+                <radialGradient id="solarFaceGrad" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#1c1810"/>
+                  <stop offset="72%" stop-color="#0d0f14"/>
+                  <stop offset="100%" stop-color="#050608"/>
+                </radialGradient>
+                <linearGradient id="goldRimGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#f9e29c"/>
+                  <stop offset="50%" stop-color="#d4af37"/>
+                  <stop offset="100%" stop-color="#7a5a0a"/>
+                </linearGradient>
+                <filter id="handShadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="1" dy="2" stdDeviation="1.5" flood-color="#000" flood-opacity="0.85"/>
+                </filter>
+              </defs>
+              <!-- Cincin Bezel Luar -->
+              <circle cx="100" cy="100" r="96" fill="url(#solarFaceGrad)" stroke="url(#goldRimGrad)" stroke-width="4"/>
+              <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(212,175,55,0.25)" stroke-width="1"/>
+              <!-- Sub-incin Dekorasi Surya -->
+              <circle cx="100" cy="100" r="64" fill="none" stroke="rgba(212,175,55,0.12)" stroke-width="1" stroke-dasharray="2 4"/>
+
+              <!-- Ticks 60 Menit & 12 Jam (Diisi via JS) -->
+              <g id="solar-analog-ticks"></g>
+
+              <!-- Angka Romawi Utama -->
+              <text x="100" y="31" text-anchor="middle" fill="#f9e29c" font-family="Cinzel, serif" font-size="13" font-weight="800">XII</text>
+              <text x="171" y="105" text-anchor="middle" fill="#d4af37" font-family="Cinzel, serif" font-size="13" font-weight="800">III</text>
+              <text x="100" y="177" text-anchor="middle" fill="#d4af37" font-family="Cinzel, serif" font-size="13" font-weight="800">VI</text>
+              <text x="29" y="105" text-anchor="middle" fill="#d4af37" font-family="Cinzel, serif" font-size="13" font-weight="800">IX</text>
+
+              <!-- Emblem Dial -->
+              <text x="100" y="64" text-anchor="middle" fill="#d4af37" font-family="Cinzel, serif" font-size="7.5" font-weight="700" letter-spacing="1.5">SURYA HAKIKI</text>
+              <text x="100" y="142" text-anchor="middle" fill="#9ca3af" font-family="JetBrains Mono, monospace" font-size="7" id="solar-ampm-label">SOLAR</text>
+
+              <!-- Jarum Jam, Menit, Detik -->
+              <g filter="url(#handShadow)">
+                <!-- Jarum Jam -->
+                <g id="solar-hour-hand" transform="rotate(0 100 100)">
+                  <polygon points="100,46 95.5,100 100,112 104.5,100" fill="url(#goldRimGrad)"/>
+                  <line x1="100" y1="56" x2="100" y2="95" stroke="#fff8dc" stroke-width="1.2" stroke-linecap="round"/>
+                </g>
+                <!-- Jarum Menit -->
+                <g id="solar-min-hand" transform="rotate(0 100 100)">
+                  <polygon points="100,26 96.8,100 100,115 103.2,100" fill="#f3f4f6"/>
+                  <line x1="100" y1="38" x2="100" y2="95" stroke="#d4af37" stroke-width="1" stroke-linecap="round"/>
+                </g>
+                <!-- Jarum Detik Emas Surya -->
+                <g id="solar-sec-hand" transform="rotate(0 100 100)">
+                  <line x1="100" y1="122" x2="100" y2="20" stroke="#f59e0b" stroke-width="1.6" stroke-linecap="round"/>
+                  <circle cx="100" cy="40" r="3" fill="#0d0f14" stroke="#f59e0b" stroke-width="1.4"/>
+                </g>
+              </g>
+              <!-- Center Cap -->
+              <circle cx="100" cy="100" r="5.5" fill="url(#goldRimGrad)" stroke="#08090c" stroke-width="1.5"/>
+              <circle cx="100" cy="100" r="2" fill="#ffffff"/>
+            </svg>
+            <div class="analog-sub-digital" id="solar-analog-sub">00:00:00</div>
+          </div>
+        </div>
+
+        <div class="clock-meta">
+          <span id="eot-info">Koreksi EoT: +0.0 mnt</span>
+          <span id="longitude-info">Bujur: 110.36° BT</span>
+        </div>
+      </article>
+
+      <!-- Jam 2: Waktu Jam Standar Umum (Civil Time) -->
+      <article class="clock-card">
+        <div class="clock-header">
+          <span class="clock-label">Waktu Jam Standar Umum</span>
+          <span class="clock-tag" id="tz-badge">WIB / UTC+7</span>
+        </div>
+
+        <div class="clock-body-container">
+          <!-- Tampilan Digital -->
+          <div class="digital-time" id="standard-clock-display">00:00:00</div>
+
+          <!-- Tampilan Analog Realistik -->
+          <div class="analog-wrapper">
+            <svg class="analog-clock-svg" viewBox="0 0 200 200" aria-label="Jam Analog Standar">
+              <defs>
+                <radialGradient id="civilFaceGrad" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#111b24"/>
+                  <stop offset="72%" stop-color="#0b0f17"/>
+                  <stop offset="100%" stop-color="#05070a"/>
+                </radialGradient>
+              </defs>
+              <!-- Cincin Bezel Luar -->
+              <circle cx="100" cy="100" r="96" fill="url(#civilFaceGrad)" stroke="url(#goldRimGrad)" stroke-width="4"/>
+              <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(16,185,129,0.28)" stroke-width="1"/>
+              <circle cx="100" cy="100" r="64" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="2 4"/>
+
+              <!-- Ticks 60 Menit & 12 Jam (Diisi via JS) -->
+              <g id="civil-analog-ticks"></g>
+
+              <!-- Angka Romawi Utama -->
+              <text x="100" y="31" text-anchor="middle" fill="#f9e29c" font-family="Cinzel, serif" font-size="13" font-weight="800">XII</text>
+              <text x="171" y="105" text-anchor="middle" fill="#d4af37" font-family="Cinzel, serif" font-size="13" font-weight="800">III</text>
+              <text x="100" y="177" text-anchor="middle" fill="#d4af37" font-family="Cinzel, serif" font-size="13" font-weight="800">VI</text>
+              <text x="29" y="105" text-anchor="middle" fill="#d4af37" font-family="Cinzel, serif" font-size="13" font-weight="800">IX</text>
+
+              <!-- Emblem Dial -->
+              <text x="100" y="64" text-anchor="middle" fill="#10b981" font-family="Cinzel, serif" font-size="7.5" font-weight="700" letter-spacing="1.5">WAKTU STANDAR</text>
+              <text x="100" y="142" text-anchor="middle" fill="#9ca3af" font-family="JetBrains Mono, monospace" font-size="7" id="civil-ampm-label">WIB</text>
+
+              <!-- Jarum Jam, Menit, Detik -->
+              <g filter="url(#handShadow)">
+                <!-- Jarum Jam -->
+                <g id="civil-hour-hand" transform="rotate(0 100 100)">
+                  <polygon points="100,46 95.5,100 100,112 104.5,100" fill="url(#goldRimGrad)"/>
+                  <line x1="100" y1="56" x2="100" y2="95" stroke="#fff8dc" stroke-width="1.2" stroke-linecap="round"/>
+                </g>
+                <!-- Jarum Menit -->
+                <g id="civil-min-hand" transform="rotate(0 100 100)">
+                  <polygon points="100,26 96.8,100 100,115 103.2,100" fill="#f3f4f6"/>
+                  <line x1="100" y1="38" x2="100" y2="95" stroke="#10b981" stroke-width="1" stroke-linecap="round"/>
+                </g>
+                <!-- Jarum Detik Emerald -->
+                <g id="civil-sec-hand" transform="rotate(0 100 100)">
+                  <line x1="100" y1="122" x2="100" y2="20" stroke="#10b981" stroke-width="1.6" stroke-linecap="round"/>
+                  <circle cx="100" cy="40" r="3" fill="#0b0f17" stroke="#10b981" stroke-width="1.4"/>
+                </g>
+              </g>
+              <!-- Center Cap -->
+              <circle cx="100" cy="100" r="5.5" fill="url(#goldRimGrad)" stroke="#08090c" stroke-width="1.5"/>
+              <circle cx="100" cy="100" r="2" fill="#ffffff"/>
+            </svg>
+            <div class="analog-sub-digital" id="civil-analog-sub">00:00:00</div>
+          </div>
+        </div>
+
+        <div class="clock-meta">
+          <span id="location-label">Titik: Yogyakarta (Keraton)</span>
+          <span id="solar-diff-info">Selisih Surya: +0 mnt</span>
+        </div>
+      </article>
+    </section>
+
+    <!-- PANEL KONTROL MODE JAM, LOKASI & SIMULASI TANGGAL -->
+    <section class="control-bar">
+      <!-- Opsi Tampilan Jam: Digital vs Analog -->
+      <div class="control-group">
+        <label>Mode Tampilan Jam:</label>
+        <div class="mode-switch-group" role="group" aria-label="Pilih Tampilan Jam">
+          <button type="button" class="mode-btn active" id="btn-mode-digital">🔢 Digital</button>
+          <button type="button" class="mode-btn" id="btn-mode-analog">🕰️ Analog Elegan</button>
+        </div>
+      </div>
+
+      <!-- Titik Meridian Lokasi -->
+      <div class="control-group">
+        <label for="city-select">Meridian:</label>
+        <select id="city-select" class="input-luxury">
+          <option value='{"name":"Yogyakarta (Keraton)","lat":-7.8014,"lon":110.3647,"tz":7}'>Yogyakarta (110.36° BT)</option>
+          <option value='{"name":"Surakarta (Solo)","lat":-7.5755,"lon":110.8243,"tz":7}'>Surakarta / Solo (110.82° BT)</option>
+          <option value='{"name":"Jakarta","lat":-6.2088,"lon":106.8456,"tz":7}'>Jakarta (106.85° BT)</option>
+          <option value='{"name":"Surabaya","lat":-7.2575,"lon":112.7521,"tz":7}'>Surabaya (112.75° BT)</option>
+          <option value='{"name":"Makkah Al-Mukarramah","lat":21.4225,"lon":39.8262,"tz":3}'>Makkah (39.83° BT)</option>
+        </select>
+        <button type="button" id="btn-gps" class="btn-luxury">GPS</button>
+      </div>
+
+      <!-- Simulasi Tanggal -->
+      <div class="control-group">
+        <label for="date-picker">Tanggal:</label>
+        <input type="date" id="date-picker" class="input-luxury">
+        <button type="button" id="btn-reset-today" class="btn-luxury">Hari Ini (Live)</button>
+      </div>
+    </section>
+
+    <!-- 3 SISTEM KALENDER -->
+    <section class="calendars-grid" aria-label="Tiga Sistem Kalender">
+      <!-- 1. Kalender Gregorian -->
+      <article class="cal-card">
+        <span class="cal-badge">1. Sistem Internasional</span>
+        <div class="cal-main-date">
+          <div class="cal-day-number" id="greg-day">--</div>
+          <div class="cal-month-year" id="greg-month-year">--- ----</div>
+          <div class="cal-sub-day" id="greg-weekday">---</div>
+        </div>
+        <div class="cal-details-list">
+          <div class="detail-item">
+            <span class="detail-label">Hari ke- (Tahun Ini)</span>
+            <span class="detail-value" id="greg-doy">-- / 365</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Minggu ISO (ISO 8601)</span>
+            <span class="detail-value" id="greg-week">Pekan ke--</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Julian Day Number (JDN)</span>
+            <span class="detail-value highlight" id="greg-jdn">--</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Status Tahun</span>
+            <span class="detail-value" id="greg-leap">--</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2. Kalender Hijriyah -->
+      <article class="cal-card">
+        <span class="cal-badge">2. Sistem Kamariyah (Hijriyah)</span>
+        <div class="cal-main-date">
+          <div class="cal-day-number" id="hijri-day">--</div>
+          <div class="cal-month-year" id="hijri-month-year">--- ---- H</div>
+          <div class="cal-sub-day" id="hijri-weekday">---</div>
+        </div>
+        <div class="cal-details-list">
+          <div class="detail-item">
+            <span class="detail-label">Urutan Bulan Hijriyah</span>
+            <span class="detail-value" id="hijri-month-num">Bulan ke--</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Estimasi Fase Bulan</span>
+            <span class="detail-value highlight" id="hijri-moon-phase">--</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Metode Hisab</span>
+            <span class="detail-value">Umm al-Qura / Astronomis</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Pergantian Hari</span>
+            <span class="detail-value">Saat Terbenam Matahari (Maghrib)</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3. Kalender Nusantara (Sultan Agungan) -->
+      <article class="cal-card">
+        <span class="cal-badge">3. Nusantara (Sultan Agungan)</span>
+        <div class="cal-main-date">
+          <div class="cal-day-number" id="java-day">--</div>
+          <div class="cal-month-year" id="java-month-year">--- ---- AJ</div>
+          <div class="cal-sub-day" id="java-weton">--- ---</div>
+        </div>
+        <div class="cal-details-list">
+          <div class="detail-item">
+            <span class="detail-label">Hari & Pasaran (Weton)</span>
+            <span class="detail-value highlight" id="java-pasaran-detail">--</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Total Neptu (Dina + Pasaran)</span>
+            <span class="detail-value highlight" id="java-neptu">--</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Nama Tahun & Windu</span>
+            <span class="detail-value" id="java-year-name">--</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Wuku (Siklus 30 Pekan)</span>
+            <span class="detail-value" id="java-wuku">--</span>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- KALENDER JAWA KHUSUS PRANATA MANGSA -->
+    <section class="mangsa-card" aria-label="Kalender Pranata Mangsa">
+      <div class="mangsa-header">
+        <div class="mangsa-title-block">
+          <h2 id="mangsa-name">MANGSA -- (---)</h2>
+          <p id="mangsa-subtitle">Kalender Ekologi & Agraris Surya Nusantara (Pakem Kasunanan / Sultan Agung)</p>
+        </div>
+        <div class="mangsa-period-pill" id="mangsa-period-range">-- s/d --</div>
+      </div>
+
+      <div class="mangsa-grid">
+        <div class="mangsa-box">
+          <span>Candraning Mangsa (Simbol Alam)</span>
+          <p id="mangsa-candra">--</p>
+        </div>
+        <div class="mangsa-box">
+          <span>Karakteristik Iklim & Ekologi</span>
+          <p id="mangsa-ecology">--</p>
+        </div>
+        <div class="mangsa-box">
+          <span>Panduan Tani & Aktivitas</span>
+          <p id="mangsa-farming">--</p>
+        </div>
+        <div class="mangsa-box">
+          <span>Mangsa Utama & Durasi</span>
+          <p id="mangsa-duration-info">--</p>
+        </div>
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-labels">
+          <span id="mangsa-day-progress">Hari ke-- dari -- hari</span>
+          <span id="mangsa-percent">0%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="mangsa-progress-bar"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- MODAL DIALOG: BACA SAYA (README.MD, MANUAL PENGGUNAAN & LISENSI MIT) -->
+  <div class="modal-overlay" id="readme-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 id="modal-title">DOKUMENTASI & LISENSI — SURYA MATARAM</h3>
+        <button type="button" class="btn-close-modal" id="btn-close-modal" title="Tutup">✕</button>
+      </div>
+      <div class="modal-tabs">
+        <div class="tab-buttons-group">
+          <button type="button" class="tab-btn active" data-target="tab-readme">1. README & Manual Penggunaan</button>
+          <button type="button" class="tab-btn" data-target="tab-license">2. Teks Lengkap Lisensi MIT</button>
+        </div>
+        <button type="button" class="btn-copy-doc" id="btn-copy-active-doc">Salin Teks</button>
+      </div>
+      <div class="modal-body">
+        <!-- TAB 1: README LENGKAP & MANUAL PENGGUNAAN -->
+        <div class="doc-section active" id="tab-readme">
+          <h4>Deskripsi Proyek (README.md)</h4>
+          <p><strong>Surya Mataram</strong> adalah aplikasi web <em>single-page</em> berarsitektur tinggi yang memadukan perhitungan astronomi <strong>Jam Matahari Sejati (True/Apparent Solar Time)</strong> dan <strong>Jam Standar Umum</strong> (dalam format Digital maupun Analog Realistik) dengan tiga sistem penanggalan peradaban: <strong>Gregorian (Masehi)</strong>, <strong>Hijriyah (Kamariyah)</strong>, dan <strong>Kalender Jawa Sultan Agungan</strong>, dilengkapi kalender ekologi-agraris <strong>Pranata Mangsa</strong>.</p>
+
+          <h4>Manual Penggunaan Aplikasi</h4>
+          <ol>
+            <li><strong>Mengubah Tampilan Jam (Digital vs Analog Elegan):</strong> Pada bilah kontrol tengah, klik tombol <strong>"🔢 Digital"</strong> untuk tampilan angka presisi, atau klik <strong>"🕰️ Analog Elegan"</strong> untuk menampilkan jam bundar klasik berjarum jam, menit, dan detik yang bergerak secara <em>real-time</em>.</li>
+            <li><strong>Memilih Lokasi Meridian Jam Matahari:</strong> Gunakan menu <em>dropdown</em> <strong>"Meridian"</strong> untuk memilih titik koordinat kota (Yogyakarta, Solo, Jakarta, Surabaya, Makkah) atau klik tombol <strong>"GPS"</strong> agar koreksi bujur dan <em>Equation of Time</em> (EoT) dihitung tepat berdasarkan titik koordinat perangkat Anda.</li>
+            <li><strong>Simulasi Lintas Tanggal (Mencari Weton, Hijriyah & Mangsa):</strong> Pilih tanggal berapa pun (masa lalu maupun masa depan) pada input <strong>"Tanggal"</strong>. Sistem akan langsung mengonversi tanggal tersebut ke Kalender Masehi, Hijriyah, Jawa Sultan Agungan (Weton, Pasaran, Neptu, Wuku, Tahun Jawa, Windu), serta posisi musim Pranata Mangsa.</li>
+            <li><strong>Kembali ke Waktu Sekarang:</strong> Klik tombol <strong>"Hari Ini (Live)"</strong> untuk mengembalikan seluruh kalender ke tanggal hari ini secara langsung.</li>
+          </ol>
+
+          <h4>Spesifikasi Teknis & Salinan Markdown README.md</h4>
+          <pre class="code-pre" id="raw-readme-code"></pre>
+        </div>
+
+        <!-- TAB 2: LISENSI MIT LENGKAP -->
+        <div class="doc-section" id="tab-license">
+          <h4>MIT License (Lisensi Sumber Terbuka Resmi)</h4>
+          <pre class="code-pre" id="raw-license-text"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    "use strict";
+
+    /**
+     * DATASET JSON KALENDER NUSANTARA, PRANATA MANGSA & DOKUMEN REPOSITORI
+     * Diparsing dengan pengamanan try-catch dan validasi objek
+     */
+    const RAW_NUSANTARA_JSON = `{
+      "docs": {
+        "readmeMarkdown": "# Surya Mataram\\n\\nSurya Mataram adalah aplikasi web penunjuk Waktu Jam Matahari Sejati (True Solar Time) dan Jam Standar Umum (mendukung mode Digital & Analog Realistik) yang terintegrasi dengan 3 sistem kalender (Gregorian, Hijriyah, dan Kalender Jawa Sultan Agungan) serta kalender ekologi Pranata Mangsa.\\n\\n## Fitur Utama\\n1. Dual Astronomical & Civil Clocks: Jam Matahari Sejati (Equation of Time + Koreksi Bujur) & Jam Standar.\\n2. Mode Digital & Analog Elegan: Opsi pergantian tampilan ke jam analog berjarum jam, menit, dan detik.\\n3. Tiga Sistem Kalender: Gregorian (JDN & ISO 8601), Hijriyah (Umm al-Qura & Fase Bulan), serta Sultan Agungan (Dina, Pasaran, Neptu, Wuku, Tahun Jawa, Windu).\\n4. Kalender Pranata Mangsa: Informasi 12 musim agraris Nusantara beserta Candraning Mangsa dan panduan tani.\\n\\n## Manual Penggunaan\\n- Klik tombol [Digital] atau [Analog Elegan] pada bilah kontrol untuk mengganti gaya penunjuk waktu.\\n- Pilih kota pada menu [Meridian] atau klik [GPS] untuk mengkalibrasi Jam Matahari sesuai lokasi Anda.\\n- Gunakan pemilih [Tanggal] untuk mengecek weton, neptu, hijriyah, dan pranata mangsa pada tanggal apa pun.\\n- Klik [Hari Ini (Live)] untuk mereset kembali ke tanggal berjalan saat ini.\\n\\n## Instalasi\\ngit clone https://github.com/fatur62/surya-mataram.git\\ncd surya-mataram\\n# Buka index.html langsung di browser modern.",
+        "mitLicense": "MIT License\\n\\nCopyright (c) 2026 fatur62\\n\\nPermission is hereby granted, free of charge, to any person obtaining a copy\\nof this software and associated documentation files (the \\"Software\\"), to deal\\nin the Software without restriction, including without limitation the rights\\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\\ncopies of the Software, and to permit persons to whom the Software is\\nfurnished to do so, subject to the following conditions:\\n\\nThe above copyright notice and this permission notice shall be included in all\\ncopies or substantial portions of the Software.\\n\\nTHE SOFTWARE IS PROVIDED \\"AS IS\\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\\nSOFTWARE."
+      },
+      "saptawara": [
+        { "id": "Minggu", "jawa": "Akad", "arab": "Al-Ahad", "neptu": 5 },
+        { "id": "Senin", "jawa": "Senen", "arab": "Al-Ithnayn", "neptu": 4 },
+        { "id": "Selasa", "jawa": "Selasa", "arab": "Ath-Thulatha", "neptu": 3 },
+        { "id": "Rabu", "jawa": "Rebo", "arab": "Al-Arbi'a", "neptu": 7 },
+        { "id": "Kamis", "jawa": "Kemis", "arab": "Al-Khamis", "neptu": 8 },
+        { "id": "Jumat", "jawa": "Jemuwah", "arab": "Al-Jumu'ah", "neptu": 6 },
+        { "id": "Sabtu", "jawa": "Setu", "arab": "As-Sabt", "neptu": 9 }
+      ],
+      "pancawara": [
+        { "nama": "Legi", "krama": "Manis", "neptu": 5, "arah": "Timur" },
+        { "nama": "Pahing", "krama": "Pait", "neptu": 9, "arah": "Selatan" },
+        { "nama": "Pon", "krama": "Petak", "neptu": 7, "arah": "Barat" },
+        { "nama": "Wage", "krama": "Cemeng", "neptu": 4, "arah": "Utara" },
+        { "nama": "Kliwon", "krama": "Asih", "neptu": 8, "arah": "Tengah" }
+      ],
+      "wulanJawa": [
+        "Sura", "Sapar", "Mulud", "Bakda Mulud", "Jumadilawal", "Jumadilakir",
+        "Rejeb", "Ruwah", "Pasa", "Sawal", "Sela", "Besar"
+      ],
+      "wulanHijri": [
+        "Muharram", "Safar", "Rabi'ul Awal", "Rabi'ul Akhir", "Jumadil Awal", "Jumadil Akhir",
+        "Rajab", "Sya'ban", "Ramadhan", "Syawal", "Dzulqa'dah", "Dzulhijjah"
+      ],
+      "tahunWindu": [
+        { "nama": "Alip", "umur": 354 },
+        { "nama": "Ehe", "umur": 355 },
+        { "nama": "Jimawal", "umur": 354 },
+        { "nama": "Je", "umur": 354 },
+        { "nama": "Dal", "umur": 355 },
+        { "nama": "Be", "umur": 354 },
+        { "nama": "Wawu", "umur": 354 },
+        { "nama": "Jimakir", "umur": 355 }
+      ],
+      "namaWindu": ["Adi", "Kuntara", "Sengara", "Sancaya"],
+      "wuku": [
+        "Sinta", "Landep", "Wukir", "Kurantil", "Tolu", "Gumbreg", "Warigalit", "Warigagung",
+        "Julungwangi", "Sungsang", "Galungan", "Kuningan", "Langkir", "Mandasiya", "Julungpujut",
+        "Pahang", "Kuruwelut", "Mrakeh", "Tambir", "Medangkungan", "Maktal", "Wuye", "Manahil",
+        "Prangbakat", "Bala", "Wugu", "Wayang", "Kulawu", "Dukut", "Watugunung"
+      ],
+      "pranataMangsa": [
+        {
+          "no": "I",
+          "nama": "Kasa (Kartika)",
+          "startMonth": 6, "startDay": 22, "endMonth": 8, "endDay": 1, "durasi": 41,
+          "induk": "Ketiga (Kemarau)",
+          "candra": "Sotya Murca Ing Embana (Permata jatuh dari embanan/dedaunan gugur)",
+          "ekologi": "Udara kering di siang hari dan sangat dingin saat malam/dini hari, daun berguguran.",
+          "tani": "Saat membakar jerami, mengolah lahan kering, dan menanam palawija (jagung, ketela, kacang)."
+        },
+        {
+          "no": "II",
+          "nama": "Karo (Pusa)",
+          "startMonth": 8, "startDay": 2, "endMonth": 8, "endDay": 24, "durasi": 23,
+          "induk": "Ketiga (Kemarau)",
+          "candra": "Bantala Rengka (Tanah merekah karena terik kemarau)",
+          "ekologi": "Tanah sawah retak-retak, pohon randu dan mangga mulai berbunga.",
+          "tani": "Pemeliharaan tanaman palawija dan perbaikan saluran irigasi desa."
+        },
+        {
+          "no": "III",
+          "nama": "Katelu (Manggasri)",
+          "startMonth": 8, "startDay": 25, "endMonth": 9, "endDay": 17, "durasi": 24,
+          "induk": "Ketiga (Kemarau)",
+          "candra": "Suta Manut Ing Bapa (Anak menurut bapak/sulur tanaman merambat naik)",
+          "ekologi": "Sumur mulai menyusut, rebung bambu mulai tumbuh, angin bertiup kencang.",
+          "tani": "Masa panen raya palawija dan tanaman umbi-umbian."
+        },
+        {
+          "no": "IV",
+          "nama": "Kapat (Sitra)",
+          "startMonth": 9, "startDay": 18, "endMonth": 10, "endDay": 12, "durasi": 25,
+          "induk": "Labuh (Peralihan Kemarau ke Hujan)",
+          "candra": "Waspa Kumembeng Jroning Kalbu (Air mata menggenang/mata air mulai terisi)",
+          "ekologi": "Hujan rintik pertama mulai turun, burung pipit dan manyar membuat sarang.",
+          "tani": "Persiapan lahan sawah tadah hujan dan penanaman padi gogo."
+        },
+        {
+          "no": "V",
+          "nama": "Kalima (Manggala)",
+          "startMonth": 10, "startDay": 13, "endMonth": 11, "endDay": 8, "durasi": 27,
+          "induk": "Labuh (Awal Musim Penghujan)",
+          "candra": "Pancuran Mas Sumawur Ing Jagad (Pancuran emas menyebar di bumi/hujan mulai deras)",
+          "ekologi": "Hujan turun merata, pohon asam bertunas daun muda (sinom), laron mulai keluar.",
+          "tani": "Mulai membajak sawah, menyebar benih padi, dan menanam pohon buah-buahan."
+        },
+        {
+          "no": "VI",
+          "nama": "Kanem (Naya)",
+          "startMonth": 11, "startDay": 9, "endMonth": 12, "endDay": 21, "durasi": 43,
+          "induk": "Labuh - Rendheng (Musim Hujan)",
+          "candra": "Rasa Mulya Kasucian (Kenikmatan suci/buah-buahan mulai masak sempurna)",
+          "ekologi": "Curah hujan tinggi, buah rambutan, durian, dan manggis mulai matang.",
+          "tani": "Masa tanam padi serentak (tandur) di lahan persawahan."
+        },
+        {
+          "no": "VII",
+          "nama": "Kapitu (Palguna)",
+          "startMonth": 12, "startDay": 22, "endMonth": 2, "endDay": 2, "durasi": 43,
+          "induk": "Rendheng (Puncak Penghujan)",
+          "candra": "Wisa Kentar Ing Maruta (Bisa/penyakit terbawa angin kencang dan banjir)",
+          "ekologi": "Puncak hujan lebat, angin kencang, sungai meluap, udara lembap.",
+          "tani": "Penyiangan gulma padi (matun) dan pemantauan tata air sawah."
+        },
+        {
+          "no": "VIII",
+          "nama": "Kawolu (Wisaka)",
+          "startMonth": 2, "startDay": 3, "endMonth": 2, "endDay": 28, "durasi": 26,
+          "induk": "Rendheng (Penghujan)",
+          "candra": "Anjrah Jroning Kayun (Semerbak di dalam hati/padi mulai menghijau & berbunga)",
+          "ekologi": "Musim kucing kawin, ulat dan tempayak banyak muncul, hujan mulai berkurang sedikit.",
+          "tani": "Padi mulai bunting (meteng) dan berbunga, penjagaan dari hama burung."
+        },
+        {
+          "no": "IX",
+          "nama": "Kasanga (Jita)",
+          "startMonth": 3, "startDay": 1, "endMonth": 3, "endDay": 25, "durasi": 25,
+          "induk": "Rendheng - Mareng (Akhir Hujan)",
+          "candra": "Wedharing Wacana Mulya (Tersiarnya kabar mulia/suara garengpung & jangkrik)",
+          "ekologi": "Serangga tonggeret (garengpung) berbunyi nyaring, padi mulai menguning.",
+          "tani": "Persiapan masa panen padi rendheng dan pengeringan petak sawah."
+        },
+        {
+          "no": "X",
+          "nama": "Kadasa (Srawana)",
+          "startMonth": 3, "startDay": 26, "endMonth": 4, "endDay": 18, "durasi": 24,
+          "induk": "Mareng (Peralihan Hujan ke Kemarau)",
+          "candra": "Gedhong Minep Jroning Kalbu (Gedung tertutup di hati/hewan mengerami telur)",
+          "ekologi": "Hujan jarang turun, udara mulai hangat, burung-burung mengerami telur.",
+          "tani": "Panen raya padi sawah (ani-ani) dan menjemur gabah."
+        },
+        {
+          "no": "XI",
+          "nama": "Dhesta (Padrawana)",
+          "startMonth": 4, "startDay": 19, "endMonth": 5, "endDay": 11, "durasi": 23,
+          "induk": "Mareng (Menjelang Kemarau)",
+          "candra": "Sotya Sinarawedi (Intan digosok/anak burung mulai disuapi induknya)",
+          "ekologi": "Sinar matahari cerah, bunga randu mulai mekar, kelembapan menurun.",
+          "tani": "Selesai panen padi, mulai menanam tanaman umur pendek (sayuran/kedelai)."
+        },
+        {
+          "no": "XII",
+          "nama": "Saddha (Asuji)",
+          "startMonth": 5, "startDay": 12, "endMonth": 6, "endDay": 21, "durasi": 41,
+          "induk": "Mareng - Ketiga",
+          "candra": "Tirta Sah Saka Sasana (Air meninggalkan tempatnya/udara sejuk & kering)",
+          "ekologi": "Jarang berkeringat karena udara kering-dingin (bedhidhing awal), embun pagi tebal.",
+          "tani": "Pengolahan tanah untuk tanaman kemarau dan penjemuran hasil bumi."
+        }
+      ]
+    }`;
+
+    function parseSafeJson(rawString, fallback = {}) {
+      try {
+        if (!rawString || typeof rawString !== "string") {
+          return fallback;
+        }
+        const parsed = JSON.parse(rawString);
+        return parsed && typeof parsed === "object" ? parsed : fallback;
+      } catch (err) {
+        console.error("Gagal melakukan parsing JSON:", err);
+        return fallback;
+      }
+    }
+
+    const DB = parseSafeJson(RAW_NUSANTARA_JSON, {});
+
+    // State Aplikasi
+    const appState = {
+      location: {
+        name: "Yogyakarta (Keraton)",
+        lat: -7.8014,
+        lon: 110.3647,
+        tz: 7
+      },
+      customDate: null,
+      clockMode: "digital", // "digital" | "analog"
+      activeDocTab: "tab-readme"
+    };
+
+    /**
+     * GENERATOR GARIS INDEKS (TICKS) JAM ANALOG SVG
+     */
+    function buildAnalogClockTicks(groupElementId, accentColor) {
+      const group = document.getElementById(groupElementId);
+      if (!group) return;
+      const svgNS = "http://www.w3.org/2000/svg";
+      group.innerHTML = "";
+
+      for (let i = 0; i < 60; i++) {
+        const isHourMark = i % 5 === 0;
+        const isCardinalMark = i % 15 === 0;
+        const line = document.createElementNS(svgNS, "line");
+
+        line.setAttribute("x1", "100");
+        line.setAttribute("y1", isCardinalMark ? "10" : isHourMark ? "11" : "12");
+        line.setAttribute("x2", "100");
+        line.setAttribute("y2", isCardinalMark ? "18" : isHourMark ? "17" : "15");
+        line.setAttribute(
+          "stroke",
+          isCardinalMark ? "#f9e29c" : isHourMark ? accentColor : "rgba(255,255,255,0.28)"
+        );
+        line.setAttribute("stroke-width", isCardinalMark ? "2.4" : isHourMark ? "1.6" : "0.9");
+        line.setAttribute("stroke-linecap", "round");
+        line.setAttribute("transform", `rotate(${i * 6} 100 100)`);
+        group.appendChild(line);
+      }
+    }
+
+    /**
+     * KALKULASI JULIAN DAY NUMBER (JDN) PRESISI
+     */
+    function getJulianDayNumber(year, month, day) {
+      const a = Math.floor((14 - month) / 12);
+      const y = year + 4800 - a;
+      const m = month + 12 * a - 3;
+      return (
+        day +
+        Math.floor((153 * m + 2) / 5) +
+        365 * y +
+        Math.floor(y / 4) -
+        Math.floor(y / 100) +
+        Math.floor(y / 400) -
+        32045
+      );
+    }
+
+    function isLeapYearGregorian(year) {
+      return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+    }
+
+    /**
+     * KALKULASI JAM MATAHARI (APPARENT SOLAR TIME) & EQUATION OF TIME
+     */
+    function calculateSolarTime(now, lon, tzOffsetHours) {
+      const startOfYear = new Date(now.getFullYear(), 0, 0);
+      const diffMs = now - startOfYear;
+      const dayOfYear = Math.floor(diffMs / 86400000);
+
+      const hours = now.getHours() + now.getMinutes() / 60 + now.getSeconds() / 3600;
+      const gamma = ((2 * Math.PI) / 365.25) * (dayOfYear - 1 + (hours - 12) / 24);
+
+      const eotMinutes =
+        229.18 *
+        (0.000075 +
+          0.001868 * Math.cos(gamma) -
+          0.032077 * Math.sin(gamma) -
+          0.014615 * Math.cos(2 * gamma) -
+          0.040849 * Math.sin(2 * gamma));
+
+      const standardMeridian = tzOffsetHours * 15;
+      const longitudeCorrectionMinutes = 4 * (lon - standardMeridian);
+      const totalOffsetSeconds = (longitudeCorrectionMinutes + eotMinutes) * 60;
+
+      const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
+      const cityStandardDate = new Date(utcMs + tzOffsetHours * 3600000);
+      const solarDate = new Date(cityStandardDate.getTime() + totalOffsetSeconds * 1000);
+
+      return {
+        cityStandardDate,
+        solarDate,
+        eotMinutes,
+        longitudeCorrectionMinutes,
+        totalOffsetMinutes: longitudeCorrectionMinutes + eotMinutes
+      };
+    }
+
+    /**
+     * KALKULASI KALENDER NUSANTARA (SULTAN AGUNGAN - KURUP ASAPON)
+     */
+    function calculateSultanAgungan(year, month, day) {
+      const jdn = getJulianDayNumber(year, month, day);
+
+      const saptaIdx = ((jdn - 2461352) % 7 + 7 + 6) % 7;
+      const pancaIdx = ((jdn - 2461352) % 5 + 5 + 1) % 5;
+
+      const dina = DB.saptawara?.[saptaIdx] || { id: "-", jawa: "-", neptu: 0 };
+      const pasaran = DB.pancawara?.[pancaIdx] || { nama: "-", krama: "-", neptu: 0, arah: "-" };
+
+      const daysSinceSinta = ((jdn - 2461332) % 210 + 210) % 210;
+      const wukuIdx = Math.floor(daysSinceSinta / 7);
+      const wukuName = DB.wuku?.[wukuIdx] || "-";
+
+      let jDay = 1;
+      let jMonthIdx = 0;
+      let jYearAJ = 1960;
+
+      const epochAlip1955JDN = 2459437;
+      const winduLengths = [354, 355, 354, 354, 355, 354, 354, 355];
+      const diffFromEpoch = jdn - epochAlip1955JDN;
+
+      const winduCycleCount = Math.floor(diffFromEpoch / 2835);
+      let remDays = ((diffFromEpoch % 2835) + 2835) % 2835;
+
+      let yearInWinduIdx = 0;
+      for (let i = 0; i < 8; i++) {
+        if (remDays < winduLengths[i]) {
+          yearInWinduIdx = i;
+          break;
+        }
+        remDays -= winduLengths[i];
+      }
+
+      jYearAJ = 1955 + winduCycleCount * 8 + yearInWinduIdx;
+      const isKabisaJawa = winduLengths[yearInWinduIdx] === 355;
+
+      const monthLengths = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, isKabisaJawa ? 30 : 29];
+      for (let m = 0; m < 12; m++) {
+        if (remDays < monthLengths[m]) {
+          jMonthIdx = m;
+          jDay = remDays + 1;
+          break;
+        }
+        remDays -= monthLengths[m];
+      }
+
+      const tahunObj = DB.tahunWindu?.[yearInWinduIdx] || { nama: "Alip" };
+      const winduNameIdx = ((winduCycleCount + 3) % 4 + 4) % 4;
+      const winduName = DB.namaWindu?.[winduNameIdx] || "Sancaya";
+
+      return {
+        day: jDay,
+        monthName: DB.wulanJawa?.[jMonthIdx] || "Sura",
+        yearAJ: jYearAJ,
+        dina,
+        pasaran,
+        neptuTotal: dina.neptu + pasaran.neptu,
+        tahunJawa: tahunObj.nama,
+        winduName,
+        wukuName
+      };
+    }
+
+    /**
+     * KALKULASI KALENDER HIJRIYAH
+     */
+    function calculateHijri(dateObj, jdn) {
+      try {
+        const fmt = new Intl.DateTimeFormat("id-ID-u-ca-islamic-umalqura", {
+          day: "numeric",
+          month: "numeric",
+          year: "numeric"
+        });
+        const parts = fmt.formatToParts(dateObj);
+        const day = parseInt(parts.find(p => p.type === "day")?.value || "1", 10);
+        const month = parseInt(parts.find(p => p.type === "month")?.value || "1", 10);
+        const year = parseInt(parts.find(p => p.type === "year")?.value || "1448", 10);
+
+        return {
+          day,
+          monthNum: month,
+          monthName: DB.wulanHijri?.[month - 1] || "Muharram",
+          year
+        };
+      } catch (e) {
+        let l = jdn - 1948440 + 10632;
+        const n = Math.floor((l - 1) / 10631);
+        l = l - 10631 * n + 354;
+        const j =
+          Math.floor((10985 - l) / 5316) * Math.floor((50 * l) / 17719) +
+          Math.floor(l / 5670) * Math.floor((43 * l) / 15238);
+        l =
+          l -
+          Math.floor((30 - j) / 15) * Math.floor((17719 * j) / 50) -
+          Math.floor(j / 16) * Math.floor((15238 * j) / 43) +
+          29;
+        const month = Math.floor((24 * l) / 709);
+        const day = l - Math.floor((709 * month) / 24);
+        const year = 30 * n + j - 30;
+
+        return {
+          day,
+          monthNum: month,
+          monthName: DB.wulanHijri?.[month - 1] || "Muharram",
+          year
+        };
+      }
+    }
+
+    function getMoonPhaseLabel(hijriDay) {
+      if (hijriDay <= 2) return "Hilal Awal Bulan (Sabit Muda)";
+      if (hijriDay <= 6) return "Sabit Awal (Waxing Crescent)";
+      if (hijriDay <= 9) return "Paruh Awal (First Quarter)";
+      if (hijriDay <= 12) return "Cembung Awal (Waxing Gibbous)";
+      if (hijriDay <= 16) return "Purnama Sempurna (Ayyamul Bidh)";
+      if (hijriDay <= 20) return "Cembung Akhir (Waning Gibbous)";
+      if (hijriDay <= 24) return "Paruh Akhir (Last Quarter)";
+      if (hijriDay <= 28) return "Sabit Tua (Waning Crescent)";
+      return "Ijtimak / Konjungsi Akhir Bulan";
+    }
+
+    /**
+     * KALKULASI KALENDER PRANATA MANGSA
+     */
+    function calculatePranataMangsa(year, month, day) {
+      const mangsaList = Array.isArray(DB.pranataMangsa) ? DB.pranataMangsa : [];
+      const currentDate = new Date(year, month - 1, day);
+
+      for (const m of mangsaList) {
+        let startYear = year;
+        let endYear = year;
+
+        if (m.startMonth === 12 && m.endMonth === 2) {
+          if (month === 12 && day >= 22) {
+            endYear = year + 1;
+          } else if (month <= 2) {
+            startYear = year - 1;
+          } else {
+            continue;
+          }
+        }
+
+        let endDayAdjusted = m.endDay;
+        if (m.no === "VIII" && isLeapYearGregorian(endYear)) {
+          endDayAdjusted = 29;
+        }
+
+        const startDate = new Date(startYear, m.startMonth - 1, m.startDay);
+        const endDate = new Date(endYear, m.endMonth - 1, endDayAdjusted);
+
+        if (currentDate >= startDate && currentDate <= endDate) {
+          const dayElapsed = Math.floor((currentDate - startDate) / 86400000) + 1;
+          const totalDurasi = m.no === "VIII" && isLeapYearGregorian(endYear) ? 27 : m.durasi;
+          const percentage = Math.min(100, Math.max(1, Math.round((dayElapsed / totalDurasi) * 100)));
+
+          return {
+            ...m,
+            dayElapsed,
+            totalDurasi,
+            percentage,
+            startDate,
+            endDate
+          };
+        }
+      }
+
+      return mangsaList[0];
+    }
+
+    /**
+     * HELPER ROTASI JARUM JAM ANALOG SVG
+     */
+    function rotateAnalogHands(prefix, dateObj) {
+      const h = dateObj.getHours();
+      const m = dateObj.getMinutes();
+      const s = dateObj.getSeconds();
+
+      const secDeg = s * 6;
+      const minDeg = (m + s / 60) * 6;
+      const hourDeg = ((h % 12) + m / 60 + s / 3600) * 30;
+
+      const hourHand = document.getElementById(`${prefix}-hour-hand`);
+      const minHand = document.getElementById(`${prefix}-min-hand`);
+      const secHand = document.getElementById(`${prefix}-sec-hand`);
+      const ampmLabel = document.getElementById(`${prefix}-ampm-label`);
+
+      if (hourHand) hourHand.setAttribute("transform", `rotate(${hourDeg.toFixed(2)} 100 100)`);
+      if (minHand) minHand.setAttribute("transform", `rotate(${minDeg.toFixed(2)} 100 100)`);
+      if (secHand) secHand.setAttribute("transform", `rotate(${secDeg.toFixed(2)} 100 100)`);
+      if (ampmLabel) {
+        ampmLabel.textContent = h >= 6 && h < 18 ? "SIANG (24H)" : "MALAM (24H)";
+      }
+    }
+
+    /**
+     * RENDER JAM DIGITAL & ANALOG (REAL-TIME TICK)
+     */
+    function updateClocksUI() {
+      const now = new Date();
+      const { lon, tz, name } = appState.location;
+      const solarData = calculateSolarTime(now, lon, tz);
+
+      const pad = n => String(n).padStart(2, "0");
+
+      // Format Jam Matahari Sejati
+      const sH = pad(solarData.solarDate.getHours());
+      const sM = pad(solarData.solarDate.getMinutes());
+      const sS = pad(solarData.solarDate.getSeconds());
+      const solarTimeStr = `${sH}:${sM}:${sS}`;
+      document.getElementById("solar-clock-display").textContent = solarTimeStr;
+      document.getElementById("solar-analog-sub").textContent = solarTimeStr;
+      rotateAnalogHands("solar", solarData.solarDate);
+
+      // Format Jam Standar Umum
+      const cH = pad(solarData.cityStandardDate.getHours());
+      const cM = pad(solarData.cityStandardDate.getMinutes());
+      const cS = pad(solarData.cityStandardDate.getSeconds());
+      const civilTimeStr = `${cH}:${cM}:${cS}`;
+      document.getElementById("standard-clock-display").textContent = civilTimeStr;
+      document.getElementById("civil-analog-sub").textContent = civilTimeStr;
+      rotateAnalogHands("civil", solarData.cityStandardDate);
+
+      // Meta Info
+      const eotSign = solarData.eotMinutes >= 0 ? "+" : "";
+      document.getElementById("eot-info").textContent = `Koreksi EoT: ${eotSign}${solarData.eotMinutes.toFixed(2)} mnt`;
+      document.getElementById("longitude-info").textContent = `Bujur: ${lon.toFixed(2)}° ${lon >= 0 ? "BT" : "BB"}`;
+
+      const diffSign = solarData.totalOffsetMinutes >= 0 ? "+" : "";
+      document.getElementById("location-label").textContent = `Titik: ${name}`;
+      document.getElementById("solar-diff-info").textContent = `Selisih Surya: ${diffSign}${solarData.totalOffsetMinutes.toFixed(1)} mnt`;
+      document.getElementById("tz-badge").textContent = `UTC${tz >= 0 ? "+" : ""}${tz}`;
+    }
+
+    /**
+     * RENDER 3 KALENDER & PRANATA MANGSA
+     */
+    function updateCalendarsUI() {
+      const targetDate = appState.customDate ? new Date(appState.customDate) : new Date();
+      const year = targetDate.getFullYear();
+      const month = targetDate.getMonth() + 1;
+      const day = targetDate.getDate();
+
+      const jdn = getJulianDayNumber(year, month, day);
+      const jawaData = calculateSultanAgungan(year, month, day);
+      const hijriData = calculateHijri(targetDate, jdn);
+      const mangsaData = calculatePranataMangsa(year, month, day);
+
+      const namaBulanMasehi = [
+        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+      ];
+      const startOfYear = new Date(year, 0, 0);
+      const doy = Math.floor((targetDate - startOfYear) / 86400000);
+      const totalDaysYear = isLeapYearGregorian(year) ? 366 : 365;
+      const isoWeek = Math.ceil(doy / 7);
+
+      document.getElementById("greg-day").textContent = day;
+      document.getElementById("greg-month-year").textContent = `${namaBulanMasehi[month - 1]} ${year}`;
+      document.getElementById("greg-weekday").textContent = `Hari ${jawaData.dina.id}`;
+      document.getElementById("greg-doy").textContent = `Hari ke-${doy} dari ${totalDaysYear}`;
+      document.getElementById("greg-week").textContent = `Pekan ke-${isoWeek}`;
+      document.getElementById("greg-jdn").textContent = jdn.toLocaleString("id-ID");
+      document.getElementById("greg-leap").textContent = isLeapYearGregorian(year)
+        ? "Tahun Kabisat (366 Hari)"
+        : "Tahun Basitah (365 Hari)";
+
+      document.getElementById("hijri-day").textContent = hijriData.day;
+      document.getElementById("hijri-month-year").textContent = `${hijriData.monthName} ${hijriData.year} H`;
+      document.getElementById("hijri-weekday").textContent = `Yaum ${jawaData.dina.arab}`;
+      document.getElementById("hijri-month-num").textContent = `Bulan ke-${hijriData.monthNum} (Kamariyah)`;
+      document.getElementById("hijri-moon-phase").textContent = getMoonPhaseLabel(hijriData.day);
+
+      document.getElementById("java-day").textContent = jawaData.day;
+      document.getElementById("java-month-year").textContent = `${jawaData.monthName} ${jawaData.yearAJ} AJ`;
+      document.getElementById("java-weton").textContent = `${jawaData.dina.jawa} ${jawaData.pasaran.nama}`;
+      document.getElementById("java-pasaran-detail").textContent = `${jawaData.dina.id} ${jawaData.pasaran.nama} (${jawaData.pasaran.krama})`;
+      document.getElementById("java-neptu").textContent = `${jawaData.neptuTotal} (${jawaData.dina.id}=${jawaData.dina.neptu} + ${jawaData.pasaran.nama}=${jawaData.pasaran.neptu})`;
+      document.getElementById("java-year-name").textContent = `Tahun ${jawaData.tahunJawa} • Windu ${jawaData.winduName}`;
+      document.getElementById("java-wuku").textContent = `Wuku ${jawaData.wukuName}`;
+
+      if (mangsaData) {
+        const fmtShort = new Intl.DateTimeFormat("id-ID", { day: "numeric", month: "long" });
+        document.getElementById("mangsa-name").textContent = `MANGSA ${mangsaData.no} — ${mangsaData.nama.toUpperCase()}`;
+        document.getElementById("mangsa-period-range").textContent = `${fmtShort.format(mangsaData.startDate)} – ${fmtShort.format(mangsaData.endDate)}`;
+        document.getElementById("mangsa-candra").textContent = mangsaData.candra;
+        document.getElementById("mangsa-ecology").textContent = mangsaData.ekologi;
+        document.getElementById("mangsa-farming").textContent = mangsaData.tani;
+        document.getElementById("mangsa-duration-info").textContent = `${mangsaData.induk} • Durasi ${mangsaData.totalDurasi} Hari`;
+        document.getElementById("mangsa-day-progress").textContent = `Berjalan hari ke-${mangsaData.dayElapsed} dari total ${mangsaData.totalDurasi} hari`;
+        document.getElementById("mangsa-percent").textContent = `${mangsaData.percentage}%`;
+        document.getElementById("mangsa-progress-bar").style.width = `${mangsaData.percentage}%`;
+      }
+    }
+
+    /**
+     * INISIALISASI MODAL "BACA SAYA" (README, MANUAL & MIT LICENSE)
+     */
+    function initModalDocs() {
+      const modalOverlay = document.getElementById("readme-modal");
+      const btnOpen = document.getElementById("btn-open-readme");
+      const btnClose = document.getElementById("btn-close-modal");
+      const tabButtons = document.querySelectorAll(".tab-btn");
+      const docSections = document.querySelectorAll(".doc-section");
+      const btnCopy = document.getElementById("btn-copy-active-doc");
+      const readmePre = document.getElementById("raw-readme-code");
+      const licensePre = document.getElementById("raw-license-text");
+
+      if (readmePre && DB.docs?.readmeMarkdown) {
+        readmePre.textContent = DB.docs.readmeMarkdown;
+      }
+      if (licensePre && DB.docs?.mitLicense) {
+        licensePre.textContent = DB.docs.mitLicense;
+      }
+
+      btnOpen.addEventListener("click", () => {
+        modalOverlay.classList.add("active");
+      });
+
+      btnClose.addEventListener("click", () => {
+        modalOverlay.classList.remove("active");
+      });
+
+      modalOverlay.addEventListener("click", (e) => {
+        if (e.target === modalOverlay) {
+          modalOverlay.classList.remove("active");
+        }
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modalOverlay.classList.contains("active")) {
+          modalOverlay.classList.remove("active");
+        }
+      });
+
+      tabButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const targetId = btn.getAttribute("data-target");
+          appState.activeDocTab = targetId;
+
+          tabButtons.forEach(b => b.classList.remove("active"));
+          docSections.forEach(s => s.classList.remove("active"));
+
+          btn.classList.add("active");
+          const targetEl = document.getElementById(targetId);
+          if (targetEl) targetEl.classList.add("active");
+        });
+      });
+
+      btnCopy.addEventListener("click", async () => {
+        const textToCopy = appState.activeDocTab === "tab-license"
+          ? (DB.docs?.mitLicense || "")
+          : (DB.docs?.readmeMarkdown || "");
+
+        try {
+          await navigator.clipboard.writeText(textToCopy);
+          const originalText = btnCopy.textContent;
+          btnCopy.textContent = "✓ Berhasil Disalin!";
+          setTimeout(() => {
+            btnCopy.textContent = originalText;
+          }, 1800);
+        } catch (err) {
+          console.error("Gagal menyalin teks:", err);
+        }
+      });
+    }
+
+    /**
+     * EVENT LISTENERS & INISIALISASI UTAMA
+     */
+    function initApp() {
+      const dateInput = document.getElementById("date-picker");
+      const citySelect = document.getElementById("city-select");
+      const btnReset = document.getElementById("btn-reset-today");
+      const btnGps = document.getElementById("btn-gps");
+      const btnModeDigital = document.getElementById("btn-mode-digital");
+      const btnModeAnalog = document.getElementById("btn-mode-analog");
+
+      // Bangun indeks dial untuk kedua jam analog
+      buildAnalogClockTicks("solar-analog-ticks", "#d4af37");
+      buildAnalogClockTicks("civil-analog-ticks", "#10b981");
+
+      // Set nilai awal input tanggal ke hari ini
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, "0");
+      const dd = String(today.getDate()).padStart(2, "0");
+      dateInput.value = `${yyyy}-${mm}-${dd}`;
+
+      // Toggle Mode Digital vs Analog
+      btnModeDigital.addEventListener("click", () => {
+        appState.clockMode = "digital";
+        document.body.classList.remove("clock-mode-analog");
+        btnModeDigital.classList.add("active");
+        btnModeAnalog.classList.remove("active");
+      });
+
+      btnModeAnalog.addEventListener("click", () => {
+        appState.clockMode = "analog";
+        document.body.classList.add("clock-mode-analog");
+        btnModeAnalog.classList.add("active");
+        btnModeDigital.classList.remove("active");
+        updateClocksUI();
+      });
+
+      citySelect.addEventListener("change", (e) => {
+        const parsedCity = parseSafeJson(e.target.value, null);
+        if (parsedCity && typeof parsedCity.lon === "number") {
+          appState.location = parsedCity;
+          updateClocksUI();
+        }
+      });
+
+      dateInput.addEventListener("change", (e) => {
+        if (e.target.value) {
+          const [y, m, d] = e.target.value.split("-").map(Number);
+          appState.customDate = new Date(y, m - 1, d, 12, 0, 0);
+          updateCalendarsUI();
+        }
+      });
+
+      btnReset.addEventListener("click", () => {
+        appState.customDate = null;
+        const now = new Date();
+        dateInput.value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+        updateCalendarsUI();
+      });
+
+      btnGps.addEventListener("click", () => {
+        if (!navigator.geolocation) {
+          alert("Geolokasi tidak didukung oleh browser Anda.");
+          return;
+        }
+        btnGps.textContent = "Mencari...";
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const lon = pos.coords.longitude;
+            const lat = pos.coords.latitude;
+            const tzOffset = -new Date().getTimezoneOffset() / 60;
+            appState.location = {
+              name: `GPS (${lat.toFixed(2)}°, ${lon.toFixed(2)}°)`,
+              lat,
+              lon,
+              tz: tzOffset
+            };
+            btnGps.textContent = "GPS Aktif";
+            updateClocksUI();
+          },
+          () => {
+            btnGps.textContent = "GPS";
+            alert("Gagal mengakses lokasi GPS. Pastikan izin lokasi diaktifkan.");
+          }
+        );
+      });
+
+      initModalDocs();
+      updateClocksUI();
+      updateCalendarsUI();
+      setInterval(updateClocksUI, 1000);
+    }
+
+    document.addEventListener("DOMContentLoaded", initApp);
+  </script>
+</body>
+</html>
